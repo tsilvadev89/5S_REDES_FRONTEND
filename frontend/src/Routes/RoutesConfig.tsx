@@ -16,7 +16,7 @@ const RoutesConfig: React.FC = () => {
     return (
         <Routes>
             <Route path="/" element={<HomePageLayout />} />
-            {/* <Route path="/cadastropessoas" element={<CadastroPessoasLayout />} /> */}
+            {/* <Route path="/cadastropessoas" element={<CadastroPessoasLayout />} /> */}n
             <Route path="/cadastropessoas" element={<LeituraPessoasLayout />} />
             <Route path="/cadastroempresa" element={<CadastroEmpresaLayout />} />
             <Route path="/cadastroproduto" element={<CadastroProdutosLayout />} />
