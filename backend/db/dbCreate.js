@@ -1,9 +1,8 @@
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') }); // Carrega as variáveis de ambiente do .env
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const mysql = require('mysql2/promise');
 const { exec } = require('child_process');
 
-// Configuração da conexão com o banco de dados
 const dbConfig = {
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -11,9 +10,8 @@ const dbConfig = {
   database: process.env.DB_NAME,
 };
 
-console.log(dbConfig); // Imprime a configuração para depuração
+console.log(dbConfig);
 
-// Função para executar o script de população e esperar até que ele termine
 function runPopulateScript() {
   return new Promise((resolve, reject) => {
     exec('node populate_data.js', (error, stdout, stderr) => {
@@ -40,11 +38,17 @@ async function createDatabaseAndTables() {
   });
 
   try {
-    // Verificar a existência do banco de dados e criar, caso não exista
     await connection.query(`CREATE DATABASE IF NOT EXISTS ${dbConfig.database}`);
     await connection.query(`USE ${dbConfig.database}`);
 
-    // Criação das tabelas
+    await connection.query(`
+      CREATE TABLE IF NOT EXISTS cargos (
+        cargo_id INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(50),
+        descricao TEXT
+      )
+    `);
+
     await connection.query(`
       CREATE TABLE IF NOT EXISTS clientes (
         cliente_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -63,15 +67,8 @@ async function createDatabaseAndTables() {
         sobrenome VARCHAR(50),
         email VARCHAR(100) UNIQUE,
         cargo_id INT,
-        data_contratacao DATE
-      )
-    `);
-
-    await connection.query(`
-      CREATE TABLE IF NOT EXISTS cargos (
-        cargo_id INT AUTO_INCREMENT PRIMARY KEY,
-        nome VARCHAR(50),
-        descricao TEXT
+        data_contratacao DATE,
+        FOREIGN KEY (cargo_id) REFERENCES cargos(cargo_id)
       )
     `);
 
@@ -86,7 +83,17 @@ async function createDatabaseAndTables() {
         bairro VARCHAR(50),
         cidade VARCHAR(50),
         estado VARCHAR(2),
-        cep VARCHAR(10)
+        cep VARCHAR(10),
+        FOREIGN KEY (entidade_id)
+          REFERENCES clientes(cliente_id) ON DELETE CASCADE
+      )
+    `);
+
+    await connection.query(`
+      CREATE TABLE IF NOT EXISTS categorias (
+        categoria_id INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(50),
+        descricao TEXT
       )
     `);
 
@@ -98,7 +105,8 @@ async function createDatabaseAndTables() {
         preco DECIMAL(10, 2),
         estoque INT,
         categoria_id INT,
-        ativo BOOLEAN DEFAULT TRUE
+        ativo BOOLEAN DEFAULT TRUE,
+        FOREIGN KEY (categoria_id) REFERENCES categorias(categoria_id)
       )
     `);
 
@@ -106,15 +114,8 @@ async function createDatabaseAndTables() {
       CREATE TABLE IF NOT EXISTS imagens_produtos (
         imagem_id INT AUTO_INCREMENT PRIMARY KEY,
         produto_id INT,
-        imagem_url VARCHAR(255)
-      )
-    `);
-
-    await connection.query(`
-      CREATE TABLE IF NOT EXISTS categorias (
-        categoria_id INT AUTO_INCREMENT PRIMARY KEY,
-        nome VARCHAR(50),
-        descricao TEXT
+        imagem_url VARCHAR(255),
+        FOREIGN KEY (produto_id) REFERENCES produtos(produto_id)
       )
     `);
 
@@ -133,7 +134,8 @@ async function createDatabaseAndTables() {
       CREATE TABLE IF NOT EXISTS imagens_servicos (
         imagem_id INT AUTO_INCREMENT PRIMARY KEY,
         servico_id INT,
-        imagem_url VARCHAR(255)
+        imagem_url VARCHAR(255),
+        FOREIGN KEY (servico_id) REFERENCES servicos(servico_id)
       )
     `);
 
@@ -144,7 +146,10 @@ async function createDatabaseAndTables() {
         servico_id INT,
         funcionario_id INT,
         data_hora DATETIME,
-        status ENUM('pendente', 'confirmado', 'cancelado', 'concluido') DEFAULT 'pendente'
+        status ENUM('pendente', 'confirmado', 'cancelado', 'concluido') DEFAULT 'pendente',
+        FOREIGN KEY (cliente_id) REFERENCES clientes(cliente_id) ON DELETE CASCADE,
+        FOREIGN KEY (servico_id) REFERENCES servicos(servico_id) ON DELETE SET NULL,
+        FOREIGN KEY (funcionario_id) REFERENCES funcionarios(funcionario_id) ON DELETE SET NULL
       )
     `);
 
@@ -153,7 +158,8 @@ async function createDatabaseAndTables() {
         pedido_id INT AUTO_INCREMENT PRIMARY KEY,
         cliente_id INT,
         data_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        valor_total DECIMAL(10, 2)
+        valor_total DECIMAL(10, 2),
+        FOREIGN KEY (cliente_id) REFERENCES clientes(cliente_id) ON DELETE CASCADE
       )
     `);
 
@@ -163,13 +169,14 @@ async function createDatabaseAndTables() {
         pedido_id INT,
         produto_id INT,
         quantidade INT,
-        preco_unitario DECIMAL(10, 2)
+        preco_unitario DECIMAL(10, 2),
+        FOREIGN KEY (pedido_id) REFERENCES pedidos(pedido_id) ON DELETE CASCADE,
+        FOREIGN KEY (produto_id) REFERENCES produtos(produto_id) ON DELETE SET NULL
       )
     `);
 
     console.log('Tabelas criadas com sucesso.');
 
-    // Executa o script de população e aguarda a conclusão
     await runPopulateScript();
 
   } catch (error) {
