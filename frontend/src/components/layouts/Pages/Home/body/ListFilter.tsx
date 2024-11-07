@@ -1,47 +1,58 @@
-import React, { useState } from 'react';
-import { FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
-import ServicesList  from './Filters/ServicesList'
-import ProductsList from './Filters/Products';
-import OthersList from './Filters/Others';
+import React, { useState, useEffect } from 'react';
+import { FormControl, InputLabel, Select, MenuItem, Box, SelectChangeEvent } from '@mui/material';
+import ServicesList from './Filters/ServicesList';
+import { categoriaService } from '../../../../../services/categoriaService';
+import { Categoria } from '../../../../../models/Categoria';
 
 const FilterComponent = () => {
-  const [category, setCategory] = useState('');
+  const [categories, setCategories] = useState<Categoria[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
 
-  const handleCategoryChange = (event) => {
-    setCategory(event.target.value);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const fetchedCategories = await categoriaService.getAllCategorias();
+        //console.log("Categorias recebidas:", fetchedCategories); // Verificação
+        setCategories(Array.isArray(fetchedCategories) ? fetchedCategories : []);
+      } catch (error) {
+        console.error('Erro ao buscar categorias:', error);
+        setCategories([]);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  const handleCategoryChange = (event: SelectChangeEvent<string>) => {
+    const categoriaId = event.target.value ? Number(event.target.value) : null;
+    //console.log("Categoria selecionada ID:", categoriaId); // Verificação
+    setSelectedCategoryId(categoriaId);
   };
 
-  let selectedComponent;
-  if (category === 'services') {
-    selectedComponent = <ServicesList />;
-  } else if (category === 'products') {
-    selectedComponent = <ProductsList />;
-  } else if (category === 'others') {
-    selectedComponent = <OthersList />;
-  }
-
   return (
-    <Box sx={{ minWidth: 300 , margin: 2}}>
+    <Box sx={{ minWidth: 300, margin: 2 }}>
       <FormControl fullWidth>
         <InputLabel id="category-label">Categorias</InputLabel>
         <Select
           labelId="category-label"
           id="category-select"
-          value={category}
-          label="Category"
+          value={selectedCategoryId !== null ? selectedCategoryId.toString() : ''}
+          label="Categoria"
           onChange={handleCategoryChange}
         >
           <MenuItem value="">
-            <em>None</em>
+            <em>Nenhuma</em>
           </MenuItem>
-          <MenuItem value={'services'}>Serviços</MenuItem>
-          <MenuItem value={'products'}>Produtos</MenuItem>
-          <MenuItem value={'others'}>Outros</MenuItem>
+          {categories.map((category) => (
+            <MenuItem key={category.categoria_id} value={category.categoria_id.toString()}>
+              {category.nome}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
-      {selectedComponent && (
+
+      {selectedCategoryId && (
         <Box mt={2}>
-          {selectedComponent}
+          <ServicesList categoriaId={selectedCategoryId} />
         </Box>
       )}
     </Box>

@@ -1,79 +1,87 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, CardMedia, IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import hair from '../../../../../assets/img/hair.jpg'
-import make from '../../../../../assets/img/make.jpg'
-import spa from '../../../../../assets/img/spa.jpg'
-import unhas from '../../../../../assets/img/unhas.jpg'
+import { Categoria } from '../../../../../models/Categoria';
+import { categoriaService } from '../../../../../services/categoriaService';
 
 interface PropsCarousel {
   template: string;
 }
 
 const CarouselCard: React.FC<PropsCarousel> = ({ template }) => {
-  const images = [
-    hair,
-    make,
-    spa,
-    unhas,
-  ];
-  const service = [
-    'Cabelos',
-    'Maquiagem',
-    'Spa',
-    'Unhas',
-  ];
-
-  const description = [
-    'Descubra a Beleza que Transforma: Cabelos Radiantes e Cheios de Estilo! ✨✂️',
-    'Realce Sua Beleza: Descubra Cores e Estilos para Arrasar com a Maquiagem Perfeita! 💄✨',
-    'Relaxe, Renove e Revitalize: Mime-se com a Experiência Luxuosa do Nosso Spa! 🌿🛁✨',
-    'Exiba Elegância: Descubra as Tendências que Farão Suas Unhas Brilharem! 💅✨',
-  ];
   const [activeStep, setActiveStep] = useState(0);
+  const [categorias, setCategorias] = useState<Categoria[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const fetchedCategorias = await categoriaService.getAllCategorias();
+        setCategorias(fetchedCategorias);
+      } catch (error) {
+        console.error('Erro ao buscar categorias:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    // Configura o intervalo para avançar automaticamente
+    const interval = setInterval(() => {
+      setActiveStep((prevActiveStep) =>
+        prevActiveStep === categorias.length - 1 ? 0 : prevActiveStep + 1
+      );
+    }, 3000); // Alterne a cada 3 segundos
+
+    // Limpa o intervalo quando o componente é desmontado
+    return () => clearInterval(interval);
+  }, [categorias.length]);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) =>
-      prevActiveStep === images.length - 1 ? 0 : prevActiveStep + 1
+      prevActiveStep === categorias.length - 1 ? 0 : prevActiveStep + 1
     );
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) =>
-      prevActiveStep === 0 ? images.length - 1 : prevActiveStep - 1
+      prevActiveStep === 0 ? categorias.length - 1 : prevActiveStep - 1
     );
   };
+
   const handleImageClick = () => {
     handleNext();
   };
 
-  
+  if (categorias.length === 0) return null; // Aguarda carregamento dos dados
+
+  const currentCategoria = categorias[activeStep];
+
   return (
-    <Card 
+    <Card
       sx={
-      template === 'mobile'
-        ? { margin: '0 auto', maxWidth: 300 }
-        : template === 'tablet'
-        ? { margin: '0 auto', maxWidth: 350 }
-        : { margin: '0 auto', maxWidth: 800 }
-    }>
+        template === 'mobile'
+          ? { margin: '0 auto', maxWidth: 300 }
+          : template === 'tablet'
+          ? { margin: '0 auto', maxWidth: 350 }
+          : { margin: '0 auto', maxWidth: 800 }
+      }
+    >
       <CardMedia
         component="img"
-        /* height="200" */
-        height={template === 'mobile' ? 200: 400}
+        height={template === 'mobile' ? 200 : 400}
         width="auto"
-        image={images[activeStep]}
-        alt={`Image ${activeStep + 1}`}
+        image={currentCategoria.imagem_url || 'default_image_path.jpg'} 
+        alt={currentCategoria.nome}
         onClick={handleImageClick}
         style={{ cursor: 'pointer' }}
       />
       <CardContent>
         <Typography variant="h5" component="div">
-          {service[activeStep]}
+          {currentCategoria.nome}
         </Typography>
-        <Typography variant='subtitle2'>
-          {description[activeStep]}
+        <Typography variant="subtitle2">
+          {currentCategoria.descricao}
         </Typography>
       </CardContent>
       <IconButton onClick={handleBack}>

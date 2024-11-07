@@ -14,7 +14,7 @@ COPY . .
 RUN npm run build
 
 # Etapa 2: Servir a aplicação
-FROM nginx:alpine
+FROM nginx:alpinenp
 
 # Copiar os arquivos build para o diretório padrão do Nginx
 COPY --from=builder /app/dist /usr/share/nginx/html

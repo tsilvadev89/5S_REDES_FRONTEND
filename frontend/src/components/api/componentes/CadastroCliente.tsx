@@ -27,7 +27,7 @@ const FormularioCadastroCliente:React.FC<PropsFormularioCadastro> = ({onRefresh}
     numero: '',
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const cliente = {
       nome,
@@ -36,16 +36,15 @@ const FormularioCadastroCliente:React.FC<PropsFormularioCadastro> = ({onRefresh}
       endereco,
       telefones: [telefone],
     };
-
-
+  
     const cadastrador = new CadastradorCliente();
-
-
+  
     cadastrador.cadastrar(cliente);
-
+  
     console.log('Cliente cadastrado:', cliente);
     onRefresh();
   };
+  
 
   return (
     <div>

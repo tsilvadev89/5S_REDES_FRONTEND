@@ -1,74 +1,80 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography, Grid, Card, CardMedia, CardContent, Stack } from '@mui/material';
-import corte from '../../../../../../assets/img/Servicos/corte.jpg'
-import penteado from '../../../../../../assets/img/Servicos/penteado.jpg'
-import pintura from '../../../../../../assets/img/Servicos/pintura.jpg'
-/* import { useHistory } from 'react-router-dom'; // Importe o useHistory se estiver usando React Router */
+import { Servico } from '../../../../../../models/Servico';
+import { servicoService } from '../../../../../../services/servicoService';
 
-const ServicesList = () => {
-  const services = [
-    {
-      title: 'Corte de Cabelo',
-      image: corte,
-      route: '/Corte',
-    },
-    {
-      title: 'Penteado',
-      image: penteado,
-      route: '/penteado',
-    },
-    {
-      title: 'Coloração',
-      image: pintura,
-      route: '/pintura',
-    },
-    // Adicione mais serviços conforme necessário
-  ];
+interface ServicesListProps {
+  categoriaId: number;
+}
 
- /*  const history = useHistory(); */
+const ServicesList: React.FC<ServicesListProps> = ({ categoriaId }) => {
+  const [services, setServices] = useState<Servico[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleServiceClick = () =>{
+  useEffect(() => {
+    const fetchServices = async () => {
+      setIsLoading(true);
+      try {
+        // Busque todos os serviços sem filtro
+        const allServices = await servicoService.getAllServicos();
+        // Filtre os serviços pela categoriaId passada como prop
+        const filteredServices = allServices.filter(service => service.categoria_id === categoriaId);
+        setServices(filteredServices);
+        setError(null);
+      } catch (err) {
+        console.error('Erro ao buscar serviços:', err);
+        setError('Não foi possível carregar os serviços.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  }
-
-/*   const handleServiceClick = (route) => {
-
-    history.push(route);
-
-  }; */
+    fetchServices();
+  }, [categoriaId]);
 
   return (
     <Stack margin={2}>
       <Typography variant="h6" align="center" fontSize={24}>
         Serviços
       </Typography>
-      <Grid container spacing={3} padding={1}>
-        {services.map((service, index) => (
-          <Grid key={index} item xs={12} sm={6} md={4}>
-            <Card
-              sx={{
-                borderRadius: 1,
-                boxShadow: 2,
-                cursor: 'pointer', // Adiciona o estilo do cursor para indicar que é clicável
-              }}
-              /* onClick={() => handleServiceClick(service.route)} // Chama a função ao clicar no card */
-              onClick={() => handleServiceClick()}
-            >
-              <CardMedia
-                component="img"
-                height="200"
-                image={service.image}
-                alt={service.title}
-              />
-              <CardContent>
-                <Typography variant="subtitle2" align="center">
-                  {service.title}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+
+      {isLoading ? (
+        <Typography align="center">Carregando serviços...</Typography>
+      ) : error ? (
+        <Typography align="center" color="error">
+          {error}
+        </Typography>
+      ) : services.length === 0 ? (
+        <Typography align="center">Nenhum serviço disponível nesta categoria.</Typography>
+      ) : (
+        <Grid container spacing={3} padding={1}>
+          {services.map((service) => (
+            <Grid key={service.servico_id} item xs={12} sm={6} md={4}>
+              <Card
+                sx={{
+                  borderRadius: 1,
+                  boxShadow: 2,
+                  cursor: 'pointer',
+                }}
+                onClick={() => console.log(`Serviço selecionado: ${service.nome}`)}
+              >
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={service.imagem_url || 'default_image_path.jpg'}
+                  alt={service.nome}
+                />
+                <CardContent>
+                  <Typography variant="subtitle2" align="center">
+                    {service.nome}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </Stack>
   );
 };
