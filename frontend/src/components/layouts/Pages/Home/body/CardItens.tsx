@@ -31,7 +31,7 @@ const CarouselCard: React.FC<PropsCarousel> = ({ template }) => {
       setActiveStep((prevActiveStep) =>
         prevActiveStep === categorias.length - 1 ? 0 : prevActiveStep + 1
       );
-    }, 3000); // Alterne a cada 3 segundos
+    }, 5000); // Timing Carrocel
 
     // Limpa o intervalo quando o componente é desmontado
     return () => clearInterval(interval);

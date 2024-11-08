@@ -22,7 +22,6 @@ const LeituraPessoas = () => {
       setLoading(false);
     } catch (error) {
       console.error('Erro ao buscar dados:', error);
-      /* alert('Erro ao buscar dados: verifique se o banco de dados está inicializado'); */
     } finally {
       setLoading(false);
 

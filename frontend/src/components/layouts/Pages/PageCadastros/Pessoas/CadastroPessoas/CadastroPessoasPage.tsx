@@ -5,7 +5,8 @@ import MenuMobile from "../../../Home/header/MenuMobile";
 import MenuDesktop from "../../../Home/header/MenuDesktop";
 import HeaderMobile from "../../../Home/header/HeaderMobile";
 import HeaderDesktop from "../../../Home/header/HeaderDesktop";
-import PersonForm from "./CadastroPessoas";
+import PersonForm from "./PersonForm";
+import UserManagement from "./UserManagement";
 
 interface LayoutProps {
     template: string;
@@ -42,7 +43,7 @@ const CadastroPessoasPage: React.FC<LayoutProps> = ({ template }) => {
             </Stack>
             <Divider flexItem={true} />
             <Stack gap={4}>
-                <PersonForm/>
+                <UserManagement/>
             </Stack>
         </Stack>
     );
