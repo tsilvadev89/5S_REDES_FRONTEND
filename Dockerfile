@@ -1,5 +1,5 @@
 # Etapa 1: Construir a aplicação (usando Node.js)
-FROM node:22.11.0 AS builder
+FROM node:22.11.0 AS builder  # Certifique-se de usar o formato correto (uma imagem e uma tag)
 
 WORKDIR /app
 
@@ -14,7 +14,7 @@ COPY . .
 RUN npm run build
 
 # Etapa 2: Servir a aplicação (com Nginx completo)
-FROM nginx:stable  # Versão mais completa do Nginx baseada em Debian/Ubuntu
+FROM nginx:stable  # Versão completa do Nginx baseada em Debian/Ubuntu
 
 # Instalar pacotes extras se necessário
 RUN apt-get update && \
