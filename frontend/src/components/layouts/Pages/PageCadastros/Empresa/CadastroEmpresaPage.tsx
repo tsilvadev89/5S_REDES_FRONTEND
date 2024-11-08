@@ -1,5 +1,4 @@
 import CadastroEmpresa from './CadastroEmpresa';
-
 import { Stack } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import React from 'react';
@@ -44,7 +43,7 @@ const CadastroEmpresaPage: React.FC<LayoutProps> = ({ template }) => {
             </Stack>
             <Divider flexItem={true} />
             <Stack gap={4}>
-                <CadastroEmpresa template={template}/>
+                <CadastroEmpresa/>
             </Stack>
         </Stack>
     );

@@ -1,13 +1,8 @@
-import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import { Menu } from '@mui/icons-material';
 import CustomList from './ListItensMenu';
-import { CssBaseline, AppBar, Toolbar, Typography, Divider } from '@mui/material';
-
-type Anchor = 'left';
+import { CssBaseline, AppBar, Toolbar, Divider } from '@mui/material';
 
 interface Page {
     url: string;

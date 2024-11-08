@@ -27,7 +27,7 @@ const UserManagement: React.FC = () => {
   const [confirmationOpen, setConfirmationOpen] = useState(false);
   const [confirmationAction, setConfirmationAction] = useState<() => void>(() => {});
   const [confirmationMessage, setConfirmationMessage] = useState('');
-  const isMobile = useMediaQuery('(max-width:600px)'); // Define o breakpoint para dispositivos móveis
+  const isMobile = useMediaQuery('(max-width:600px)');
 
   const fetchClientes = async () => {
     try {
@@ -58,24 +58,24 @@ const UserManagement: React.FC = () => {
     setConfirmationOpen(true);
   };
 
-  const handleDelete = (cliente: Cliente) => {
-    const clienteNome = cliente?.primeiro_nome || 'Cliente';
-    const clienteSobrenome = cliente?.sobrenome || '';
+  const handleDelete = (clienteId: number) => {
+    const cliente = clientes.find(c => c.cliente_id === clienteId);
+    const clienteNome = cliente ? `${cliente.primeiro_nome} ${cliente.sobrenome}` : 'Cliente';
   
     confirmAction(async () => {
       try {
-        await clienteService.deleteCliente(cliente.cliente_id);
+        await clienteService.deleteCliente(clienteId);
         setSuccess(true);
         fetchClientes();
       } catch (error) {
         setError('Erro ao excluir cliente.');
       }
-    }, `Tem certeza que deseja excluir o cliente ${clienteNome} ${clienteSobrenome}?`);
+    }, `Tem certeza que deseja excluir o cliente ${clienteNome}?`);
   };
 
   const handleSave = (cliente: Cliente) => {
     const actionType = cliente.cliente_id ? 'atualizar' : 'cadastrar';
-    const clienteNome = cliente.primeiro_nome + ' ' + cliente.sobrenome;
+    const clienteNome = `${cliente.primeiro_nome} ${cliente.sobrenome}`;
     confirmAction(async () => {
       try {
         if (cliente.cliente_id) {

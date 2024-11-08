@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Button, Stack, Typography } from '@mui/material';
 import NameInput from '../ComponentesComuns/Nomes';
 import DateInput from '../ComponentesComuns/Date';
@@ -6,22 +5,9 @@ import MoneyInput from '../ComponentesComuns/MoneyInput';
 import QuantityCounter from '../ComponentesComuns/QuantityCounter';
 
 const CadastroProdutos = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    socialName: '',
-    cpf: '',
-    rg: '',
-    registrationDate: '',
-  });
 
-  const handleChange = (e: { target: { name: string; value: string; }; }) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
-    console.log(formData);
+  const handleSubmit = () => {
+    console.log('handleSubmit');
   };
 
   return (

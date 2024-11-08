@@ -1,4 +1,3 @@
-import React from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -13,7 +12,11 @@ import ConstructionIcon from '@mui/icons-material/Construction';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 
-function CustomList({ navigateToPage }) {
+interface CustomListProps {
+  navigateToPage: (path: string) => void;
+}
+
+function CustomList({ navigateToPage }: CustomListProps) {
   return (
     <>
       {/* HOME PAGE */}
@@ -21,9 +24,9 @@ function CustomList({ navigateToPage }) {
         <ListItem disablePadding>
           <ListItemButton onClick={() => navigateToPage('/')}>
             <ListItemIcon>
-              <HomeIcon /> {/* // ICON */}
+              <HomeIcon /> {/* ICON */}
             </ListItemIcon>
-            <ListItemText primary="Home" /> {/* //// TEXT */}
+            <ListItemText primary="Home" /> {/* TEXT */}
           </ListItemButton>
         </ListItem>
       </List>
@@ -33,15 +36,15 @@ function CustomList({ navigateToPage }) {
       {/* CADASTROS */}
       <List>
         <ListItem>
-          <ListItemText primary="Cadastro" /> {/* //// TEXT */}
+          <ListItemText primary="Cadastro" /> {/* TEXT */}
         </ListItem>
         {/* PESSOAS */}
         <ListItem disablePadding>
           <ListItemButton onClick={() => navigateToPage('/cadastropessoas')}>
             <ListItemIcon>
-              <PeopleIcon /> {/* // ICON */}
+              <PeopleIcon /> {/* ICON */}
             </ListItemIcon>
-            <ListItemText primary="Usuarios" /> {/* //// TEXT */}
+            <ListItemText primary="Usuarios" /> {/* TEXT */}
           </ListItemButton>
         </ListItem>
 
@@ -49,9 +52,9 @@ function CustomList({ navigateToPage }) {
         <ListItem disablePadding>
           <ListItemButton onClick={() => navigateToPage('/cadastroempresa')}>
             <ListItemIcon>
-              <FactoryIcon /> {/* // ICON */}
+              <FactoryIcon /> {/* ICON */}
             </ListItemIcon>
-            <ListItemText primary="Empresas" /> {/* //// TEXT */}
+            <ListItemText primary="Empresas" /> {/* TEXT */}
           </ListItemButton>
         </ListItem>
 
@@ -59,18 +62,18 @@ function CustomList({ navigateToPage }) {
         <ListItem disablePadding>
           <ListItemButton onClick={() => navigateToPage('/cadastroservicos')}>
             <ListItemIcon>
-              <ConstructionIcon /> {/* // ICON */}
+              <ConstructionIcon /> {/* ICON */}
             </ListItemIcon>
-            <ListItemText primary="Serviços" /> {/* //// TEXT */}
+            <ListItemText primary="Serviços" /> {/* TEXT */}
           </ListItemButton>
         </ListItem>
 
         <ListItem disablePadding>
           <ListItemButton onClick={() => navigateToPage('/cadastroproduto')}>
             <ListItemIcon>
-              <InventoryIcon /> {/* // ICON */}
+              <InventoryIcon /> {/* ICON */}
             </ListItemIcon>
-            <ListItemText primary="Produtos" /> {/* //// TEXT */}
+            <ListItemText primary="Produtos" /> {/* TEXT */}
           </ListItemButton>
         </ListItem>
       </List>
@@ -79,19 +82,18 @@ function CustomList({ navigateToPage }) {
       {/* Listagem */}
       <List>
         <ListItem>
-          <ListItemText primary="Relatórios" /> {/* //// TEXT */}
+          <ListItemText primary="Relatórios" /> {/* TEXT */}
         </ListItem>
-        {/* PESSOAS */}
+        {/* DASHBOARD */}
         <ListItem disablePadding>
           <ListItemButton onClick={() => navigateToPage('/dashboard')}>
             <ListItemIcon>
-              <DashboardIcon /> {/* // ICON */}
+              <DashboardIcon /> {/* ICON */}
             </ListItemIcon>
-            <ListItemText primary="Dashboard" /> {/* //// TEXT */}
+            <ListItemText primary="Dashboard" /> {/* TEXT */}
           </ListItemButton>
         </ListItem>
       </List>
-      
     </>
   );
 }

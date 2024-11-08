@@ -9,7 +9,7 @@ import {
   TextField,
   Stack,
 } from '@mui/material';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import DateField from '../../ComponentesComuns/DateField';
 
 interface PersonFormProps {
@@ -47,8 +47,8 @@ const PersonForm: React.FC<PersonFormProps> = ({ open, onClose, onSave, cliente 
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleDateChange = (date: Date | null, field: 'data_nascimento') => {
-    const formattedDate = date ? dayjs(date).format('YYYY-MM-DD') : '';
+  const handleDateChange = (date: Dayjs | null, field: 'data_nascimento') => {
+    const formattedDate = date ? date.format('YYYY-MM-DD') : '';
     setFormData({ ...formData, [field]: formattedDate });
   };
 

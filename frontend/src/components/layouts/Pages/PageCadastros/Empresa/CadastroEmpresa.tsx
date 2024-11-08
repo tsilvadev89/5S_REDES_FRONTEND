@@ -5,11 +5,8 @@ import DateInput from '../ComponentesComuns/Date';
 import MultiplePhonesInput from '../ComponentesComuns/Telefone/TelefoneList';
 import CNPJInput from '../ComponentesComuns/Cnpj';
 
-interface LayoutProps {
-  template: string;
-}
 
-const CadastroEmpresa: React.FC<LayoutProps> = ({ template }) => {
+const CadastroEmpresa: React.FC = () => {
   
   const [formData, setFormData] = useState({
     name: '',

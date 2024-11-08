@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FormControl, InputLabel, Select, MenuItem, Box, SelectChangeEvent } from '@mui/material';
-import ServicesList from './Filters/ServicesList';
 import { categoriaService } from '../../../../../services/categoriaService';
 import { Categoria } from '../../../../../models/Categoria';
 
@@ -52,7 +51,7 @@ const FilterComponent = () => {
 
       {selectedCategoryId && (
         <Box mt={2}>
-          <ServicesList categoriaId={selectedCategoryId} />
+          {/* TODO Revisar posicionamento */}
         </Box>
       )}
     </Box>

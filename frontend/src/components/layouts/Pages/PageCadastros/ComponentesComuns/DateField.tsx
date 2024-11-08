@@ -1,24 +1,22 @@
-// DateField.tsx
 import React from 'react';
-import { TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Dayjs } from 'dayjs';
 
 interface DateFieldProps {
   label: string;
-  value: Dayjs | null;
-  onChange: (date: Date | null) => void;
+  value?: Dayjs | null;
+  onChange: (date: Dayjs | null) => void;
   inputFormat?: string;
 }
 
-const DateField: React.FC<DateFieldProps> = ({ label, value, onChange, inputFormat = 'dd/MM/yyyy' }) => {
+const DateField: React.FC<DateFieldProps> = ({ label, value, onChange, inputFormat = 'DD/MM/YYYY' }) => {
   return (
     <DatePicker
       label={label}
       value={value}
-      onChange={onChange}
-      renderInput={(params) => <TextField {...params} fullWidth required />}
-      inputFormat={inputFormat}
+      onChange={onChange} 
+      format={inputFormat} 
+      slotProps={{ textField: { fullWidth: true, required: true } }} 
     />
   );
 };

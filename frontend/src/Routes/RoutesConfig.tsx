@@ -9,7 +9,6 @@ import CadastroProdutosLayout from '../components/layouts/Pages/PageCadastros/Pr
 import CadastroServicosLayout from '../components/layouts/Pages/PageCadastros/Servicos/CadastroServicosLayout';
 import CadastroPessoasLayout from '../components/layouts/Pages/PageCadastros/Pessoas/CadastroPessoas/CadastroPessoasLayout';
 import DashboardLayout from '../components/layouts/Pages/DashBoard/DashboardLayout';
-import LeituraPessoasLayout from '../components/layouts/Pages/PageCadastros/Pessoas/LeituraPessoas/LeituraPessoasLayout';
 
 
 const RoutesConfig: React.FC = () => {
@@ -17,17 +16,10 @@ const RoutesConfig: React.FC = () => {
         <Routes>
             <Route path="/" element={<HomePageLayout />} />
             <Route path="/cadastropessoas" element={<CadastroPessoasLayout />} />
-            <Route path="/cadastropessoas" element={<LeituraPessoasLayout />} />
             <Route path="/cadastroempresa" element={<CadastroEmpresaLayout />} />
             <Route path="/cadastroproduto" element={<CadastroProdutosLayout />} />
             <Route path="/cadastroservicos" element={<CadastroServicosLayout />} />
             <Route path="/dashboard" element={<DashboardLayout />} />
-
-            <Route path="/pagelistarcliente" element={<LeituraPessoasLayout />} />
-  
-
-
-
             <Route path="*" element={<NotFoundPage />} />
         </Routes>
     );

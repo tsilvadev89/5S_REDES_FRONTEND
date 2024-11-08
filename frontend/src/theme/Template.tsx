@@ -7,7 +7,7 @@ interface TemplateContextProps {
 
 const TemplateContext = createContext<TemplateContextProps>({
     template: 'desktop',
-    setTemplate: () => {}, // Função vazia apenas para inicializar
+    setTemplate: () => {},
 });
 
 export const useTemplate = () => {
@@ -22,12 +22,8 @@ interface TemplateProviderProps {
 export const TemplateProvider: React.FC<TemplateProviderProps> = ({ template, children }) => {
     const [currentTemplate, setCurrentTemplate] = useState(template);
 
-    const setTemplate = (newTemplate: string) => {
-        setCurrentTemplate(newTemplate);
-    };
-
     return (
-        <TemplateContext.Provider value={{ template: currentTemplate, setTemplate }}>
+        <TemplateContext.Provider value={{ template: currentTemplate, setTemplate: setCurrentTemplate }}>
             {children}
         </TemplateContext.Provider>
     );

@@ -4,7 +4,7 @@ import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mu
 const GenderInput = () => {
   const [gender, setGender] = useState('');
 
-  const handleGenderChange = (event) => {
+  const handleGenderChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setGender(event.target.value);
   };
 
