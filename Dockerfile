@@ -1,5 +1,5 @@
-# Etapa 1: Construir a aplicação
-FROM node:18-alpine AS builder
+# Etapa 1: Construir a aplicação (usando Node.js)
+FROM node:22.11.0 AS builder
 
 WORKDIR /app
 
@@ -13,14 +13,14 @@ COPY . .
 # Construir a aplicação
 RUN npm run build
 
-# Etapa 2: Servir a aplicação
-FROM nginx:stable-alpine  # Usa a versão estável do Nginx com base no Alpine
+# Etapa 2: Servir a aplicação (com Nginx completo)
+FROM nginx:stable  # Versão mais completa do Nginx baseada em Debian/Ubuntu
 
-# Instalar pacotes extras, se necessário, para a versão completa do Nginx
-RUN apk update && \
-    apk add --no-cache bash curl vim # Exemplo de pacotes adicionais
+# Instalar pacotes extras se necessário
+RUN apt-get update && \
+    apt-get install -y bash curl vim # Exemplos de pacotes adicionais
 
-# Copiar os arquivos build para o diretório padrão do Nginx
+# Copiar os arquivos build para o diretório do Nginx
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Expor a porta 80
