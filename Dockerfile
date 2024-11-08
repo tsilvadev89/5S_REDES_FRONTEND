@@ -14,7 +14,11 @@ COPY . .
 RUN npm run build
 
 # Etapa 2: Servir a aplicação
-FROM nginx:alpinenp
+FROM nginx:stable-alpine  # Usa a versão estável do Nginx com base no Alpine
+
+# Instalar pacotes extras, se necessário, para a versão completa do Nginx
+RUN apk update && \
+    apk add --no-cache bash curl vim # Exemplo de pacotes adicionais
 
 # Copiar os arquivos build para o diretório padrão do Nginx
 COPY --from=builder /app/dist /usr/share/nginx/html
