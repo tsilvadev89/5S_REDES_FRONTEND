@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { clienteService } from '../../../../../../services/clienteService';
+import { funcionarioService } from '../../../../../../services/funcionarioService';
+import { cargoService } from '../../../../../../services/cargoService';
 import { Cliente } from '../../../../../../models/Cliente';
+import { Funcionario } from '../../../../../../models/Funcionario';
+import { Cargo } from '../../../../../../models/Cargo';
 import {
   Stack,
   Button,
@@ -13,20 +17,27 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  ToggleButton,
+  ToggleButtonGroup
 } from '@mui/material';
-import UserTable from './UserTable';
+import UserTableUser from './UserTableUser';
+import UserTableFunc from './UserTableFunc';
 import UserCardList from './UserCardList';
-import PersonForm from './PersonForm';
+import PersonFormUser from './PersonFormUser';
+import PersonFormFunc from './PersonFormFunc';
 
 const UserManagement: React.FC = () => {
   const [clientes, setClientes] = useState<Cliente[]>([]);
-  const [selectedCliente, setSelectedCliente] = useState<Cliente | null>(null);
+  const [funcionarios, setFuncionarios] = useState<Funcionario[]>([]);
+  const [cargos, setCargos] = useState<Cargo[]>([]);
+  const [selectedUser, setSelectedUser] = useState<Cliente | Funcionario | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [confirmationOpen, setConfirmationOpen] = useState(false);
   const [confirmationAction, setConfirmationAction] = useState<() => void>(() => {});
   const [confirmationMessage, setConfirmationMessage] = useState('');
+  const [view, setView] = useState<'clientes' | 'funcionarios'>('clientes');
   const isMobile = useMediaQuery('(max-width:600px)');
 
   const fetchClientes = async () => {
@@ -38,17 +49,40 @@ const UserManagement: React.FC = () => {
     }
   };
 
+  const fetchFuncionarios = async () => {
+    try {
+      const response = await funcionarioService.getAllFuncionarios();
+      setFuncionarios(response);
+    } catch (error) {
+      console.error('Erro ao buscar funcionários:', error);
+    }
+  };
+
+  const fetchCargos = async () => {
+    try {
+      const response = await cargoService.getAllCargos();
+      setCargos(response);
+    } catch (error) {
+      console.error('Erro ao buscar cargos:', error);
+    }
+  };
+
   useEffect(() => {
-    fetchClientes();
-  }, []);
+    if (view === 'clientes') {
+      fetchClientes();
+    } else {
+      fetchFuncionarios();
+      fetchCargos();
+    }
+  }, [view]);
 
   const handleCreate = () => {
-    setSelectedCliente(null);
+    setSelectedUser(null);
     setIsModalOpen(true);
   };
 
-  const handleEdit = (cliente: Cliente) => {
-    setSelectedCliente(cliente);
+  const handleEdit = (user: Cliente | Funcionario) => {
+    setSelectedUser(user);
     setIsModalOpen(true);
   };
 
@@ -58,38 +92,56 @@ const UserManagement: React.FC = () => {
     setConfirmationOpen(true);
   };
 
-  const handleDelete = (clienteId: number) => {
-    const cliente = clientes.find(c => c.cliente_id === clienteId);
-    const clienteNome = cliente ? `${cliente.primeiro_nome} ${cliente.sobrenome}` : 'Cliente';
-  
-    confirmAction(async () => {
-      try {
-        await clienteService.deleteCliente(clienteId);
-        setSuccess(true);
-        fetchClientes();
-      } catch (error) {
-        setError('Erro ao excluir cliente.');
+  const handleDeleteConfirmed = async (userId: number) => {
+    try {
+      if (view === 'clientes') {
+        await clienteService.deleteCliente(userId);
+      } else {
+        await funcionarioService.deleteFuncionario(userId);
       }
-    }, `Tem certeza que deseja excluir o cliente ${clienteNome}?`);
+      setSuccess(true);
+      view === 'clientes' ? fetchClientes() : fetchFuncionarios();
+    } catch (error) {
+      setError(`Erro ao excluir ${view === 'clientes' ? 'cliente' : 'funcionário'}.`);
+    }
   };
 
-  const handleSave = (cliente: Cliente) => {
-    const actionType = cliente.cliente_id ? 'atualizar' : 'cadastrar';
-    const clienteNome = `${cliente.primeiro_nome} ${cliente.sobrenome}`;
+  const handleDelete = (userId: number) => {
+    const user = (view === 'clientes' ? clientes : funcionarios).find(
+      (u) => (view === 'clientes' ? u.cliente_id : u.funcionario_id) === userId
+    );
+    const userName = user ? `${user.primeiro_nome} ${user.sobrenome}` : 'Usuário';
+
+    confirmAction(() => handleDeleteConfirmed(userId), `Tem certeza que deseja excluir ${userName}?`);
+  };
+
+  const handleSave = (user: Cliente | Funcionario) => {
+    const actionType = (user as Cliente).cliente_id || (user as Funcionario).funcionario_id ? 'atualizar' : 'cadastrar';
+    const userName = `${user.primeiro_nome} ${user.sobrenome}`;
     confirmAction(async () => {
       try {
-        if (cliente.cliente_id) {
-          await clienteService.updateCliente(cliente.cliente_id, cliente);
+        if (view === 'clientes') {
+          const cliente = user as Cliente;
+          if (cliente.cliente_id) {
+            await clienteService.updateCliente(cliente.cliente_id, cliente);
+          } else {
+            await clienteService.createCliente(cliente);
+          }
         } else {
-          await clienteService.createCliente(cliente);
+          const funcionario = user as Funcionario;
+          if (funcionario.funcionario_id) {
+            await funcionarioService.updateFuncionario(funcionario.funcionario_id, funcionario);
+          } else {
+            await funcionarioService.createFuncionario(funcionario);
+          }
         }
         setSuccess(true);
-        fetchClientes();
+        view === 'clientes' ? fetchClientes() : fetchFuncionarios();
         setIsModalOpen(false);
       } catch (error) {
-        setError('Erro ao salvar cliente.');
+        setError(`Erro ao salvar ${view === 'clientes' ? 'cliente' : 'funcionário'}.`);
       }
-    }, `Tem certeza que deseja ${actionType} o cliente ${clienteNome}?`);
+    }, `Tem certeza que deseja ${actionType} ${userName}?`);
   };
 
   const handleConfirm = () => {
@@ -99,33 +151,76 @@ const UserManagement: React.FC = () => {
 
   return (
     <Stack spacing={3} padding={2}>
-      <Typography variant="h4">Gerenciamento de Clientes</Typography>
+      <Typography variant="h4">Gerenciamento de {view === 'clientes' ? 'Clientes' : 'Funcionários'}</Typography>
+      
+      <ToggleButtonGroup
+        value={view}
+        exclusive
+        onChange={(e, newView) => setView(newView)}
+        aria-label="View selection"
+      >
+        <ToggleButton value="clientes" aria-label="Clientes">
+          Clientes
+        </ToggleButton>
+        <ToggleButton value="funcionarios" aria-label="Funcionários">
+          Funcionários
+        </ToggleButton>
+      </ToggleButtonGroup>
+
       <Button variant="contained" onClick={handleCreate}>
-        Novo Cliente
+        Novo {view === 'clientes' ? 'Cliente' : 'Funcionário'}
       </Button>
+      
       {isMobile ? (
-        <UserCardList clientes={clientes} onEdit={handleEdit} onDelete={handleDelete} />
+        <UserCardList 
+          clientes={view === 'clientes' ? clientes : funcionarios} 
+          onEdit={handleEdit} 
+          onDelete={handleDelete} 
+        />
+      ) : view === 'clientes' ? (
+        <UserTableUser 
+          clientes={clientes}
+          onEdit={handleEdit} 
+        />
       ) : (
-        <UserTable clientes={clientes} onEdit={handleEdit} onDelete={handleDelete} />
+        <UserTableFunc 
+          funcionarios={funcionarios}
+          cargos={cargos}
+          onEdit={handleEdit} 
+        />
       )}
-      <PersonForm
-        open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={handleSave}
-        cliente={selectedCliente}
-      />
+
+      {view === 'clientes' ? (
+        <PersonFormUser
+          open={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSave={handleSave}
+          onDelete={handleDeleteConfirmed}
+          cliente={selectedUser as Cliente | null}
+        />
+      ) : (
+        <PersonFormFunc
+          open={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSave={handleSave}
+          onDelete={handleDeleteConfirmed}
+          funcionario={selectedUser as Funcionario | null}
+          cargos={cargos}
+        />
+      )}
+
       <Snackbar open={success} autoHideDuration={6000} onClose={() => setSuccess(false)}>
         <Alert onClose={() => setSuccess(false)} severity="success">
           Operação realizada com sucesso!
         </Alert>
       </Snackbar>
+
       <Snackbar open={Boolean(error)} autoHideDuration={6000} onClose={() => setError(null)}>
         <Alert onClose={() => setError(null)} severity="error">
           {error}
         </Alert>
       </Snackbar>
-      
-      {/* Dialog de Confirmação */}
+
       <Dialog
         open={confirmationOpen}
         onClose={() => setConfirmationOpen(false)}

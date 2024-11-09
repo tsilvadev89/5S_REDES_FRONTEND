@@ -6,21 +6,26 @@ import RoutesConfig from "./Routes/RoutesConfig";
 
 import { TemplateProvider, useTemplate } from "./theme/Template";
 
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 function App() {
   const { theme } = useThemeContext();
   const { template } = useTemplate();
 
   return (
-    <Router>
-      <ThemeProvider theme={theme}>
-        <TemplateProvider template={template}>
-          <Routes />
-          <CssBaseline />
-          <RoutesConfig />
-        </TemplateProvider>
-      </ThemeProvider>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Router>
+        <ThemeProvider theme={theme}>
+          <TemplateProvider template={template}>
+            <Routes />
+            <CssBaseline />
+            <RoutesConfig />
+          </TemplateProvider>
+        </ThemeProvider>
 
-    </Router>
+      </Router>
+    </LocalizationProvider>
   );
 }
 

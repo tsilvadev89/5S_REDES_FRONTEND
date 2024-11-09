@@ -9,18 +9,15 @@ import {
   TableRow,
   Paper,
   Avatar,
-  IconButton,
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 
-interface UserTableProps {
+
+interface UserTableUserProps {
   clientes: Cliente[];
   onEdit: (cliente: Cliente) => void;
-  onDelete: (clienteId: number) => void;
 }
 
-const UserTable: React.FC<UserTableProps> = ({ clientes, onEdit, onDelete }) => {
+const UserTableUser: React.FC<UserTableUserProps> = ({ clientes, onEdit }) => {
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -30,26 +27,21 @@ const UserTable: React.FC<UserTableProps> = ({ clientes, onEdit, onDelete }) => 
             <TableCell>Nome</TableCell>
             <TableCell>Email</TableCell>
             <TableCell>Data de Nascimento</TableCell>
-            <TableCell>Ações</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {clientes.map((cliente) => (
-            <TableRow key={cliente.cliente_id}>
+            <TableRow
+              key={cliente.cliente_id}
+              onClick={() => onEdit(cliente)}
+              style={{ cursor: 'pointer' }}
+            >
               <TableCell>
                 <Avatar src={cliente.imagem_url} alt={cliente.primeiro_nome} />
               </TableCell>
               <TableCell>{`${cliente.primeiro_nome} ${cliente.sobrenome}`}</TableCell>
               <TableCell>{cliente.email}</TableCell>
               <TableCell>{new Date(cliente.data_nascimento).toLocaleDateString()}</TableCell>
-              <TableCell>
-                <IconButton onClick={() => onEdit(cliente)}>
-                  <EditIcon />
-                </IconButton>
-                <IconButton onClick={() => onDelete(cliente.cliente_id)} color="error">
-                  <DeleteIcon />
-                </IconButton>
-              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -58,4 +50,4 @@ const UserTable: React.FC<UserTableProps> = ({ clientes, onEdit, onDelete }) => 
   );
 };
 
-export default UserTable;
+export default UserTableUser;
