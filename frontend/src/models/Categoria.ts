@@ -3,4 +3,5 @@ export interface Categoria {
   nome: string;
   descricao: string;
   imagem_url?: string;
+  tipo: string;
 }

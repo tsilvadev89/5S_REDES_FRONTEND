@@ -16,58 +16,47 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
-  MenuItem,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CopyAllIcon from '@mui/icons-material/CopyAll';
 import dayjs, { Dayjs } from 'dayjs';
-import DateField from '../../ComponentesComuns/DateField';
-import { Funcionario } from '../../../../../../models/Funcionario';
-import { Cargo } from '../../../../../../models/Cargo';
+import DateField from '../ComponentesComuns/DateField';
+import { Cliente } from '../../../../../models/Cliente';
 
-interface PersonFormFuncProps {
+interface PersonFormUserProps {
   open: boolean;
   onClose: () => void;
-  onSave: (funcionario: Funcionario) => void;
+  onSave: (cliente: Cliente) => void;
   onDelete: (id: number) => void;
-  funcionario: Funcionario | null;
-  cargos: Cargo[];
+  cliente: Cliente | null;
 }
 
-const PersonFormFunc: React.FC<PersonFormFuncProps> = ({
-  open,
-  onClose,
-  onSave,
-  onDelete,
-  funcionario,
-  cargos,
-}) => {
-  const [formData, setFormData] = useState<Partial<Funcionario>>({
+const PersonFormUser: React.FC<PersonFormUserProps> = ({ open, onClose, onSave, onDelete, cliente }) => {
+  const [formData, setFormData] = useState<Partial<Cliente>>({
     primeiro_nome: '',
     sobrenome: '',
     email: '',
-    cargo_id: 0,
-    data_contratacao: '',
+    data_nascimento: '',
     imagem_url: '',
   });
   const [copySuccess, setCopySuccess] = useState(false);
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
   const [confirmUpdateOpen, setConfirmUpdateOpen] = useState(false);
+  const botaoTexto = cliente ? 'Atualizar' : 'Cadastrar';
 
   useEffect(() => {
-    if (funcionario) {
-      setFormData(funcionario);
+    if (cliente) {
+      setFormData(cliente);
     } else {
       setFormData({
         primeiro_nome: '',
         sobrenome: '',
         email: '',
-        cargo_id: 0,
-        data_contratacao: '',
+        data_nascimento: '',
         imagem_url: '',
       });
     }
-  }, [funcionario]);
+  }, [cliente]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -76,17 +65,17 @@ const PersonFormFunc: React.FC<PersonFormFuncProps> = ({
 
   const handleDateChange = (date: Dayjs | null) => {
     const formattedDate = date ? date.format('YYYY-MM-DD') : '';
-    setFormData({ ...formData, data_contratacao: formattedDate });
+    setFormData({ ...formData, data_nascimento: formattedDate });
   };
 
   const handleSubmit = () => {
     setConfirmUpdateOpen(false);
-    onSave(formData as Funcionario);
+    onSave(formData as Cliente);
   };
 
   const handleDeleteClick = () => {
     setConfirmDeleteOpen(false);
-    onDelete(funcionario?.funcionario_id!);
+    onDelete(cliente?.cliente_id!);
     onClose();
   };
 
@@ -112,66 +101,25 @@ const PersonFormFunc: React.FC<PersonFormFuncProps> = ({
             </IconButton>
           </Stack>
           <Stack spacing={2} mt={2}>
-            <TextField
-              label="Nome"
-              name="primeiro_nome"
-              value={formData.primeiro_nome || ''}
-              onChange={handleChange}
-              fullWidth
-            />
-            <TextField
-              label="Sobrenome"
-              name="sobrenome"
-              value={formData.sobrenome || ''}
-              onChange={handleChange}
-              fullWidth
-            />
-            <TextField
-              label="Email"
-              name="email"
-              value={formData.email || ''}
-              onChange={handleChange}
-              fullWidth
-              type="email"
-            />
-            <TextField
-              select
-              label="Cargo"
-              name="cargo_id"
-              value={formData.cargo_id || ''}
-              onChange={(e) =>
-                setFormData({ ...formData, cargo_id: Number(e.target.value) })
-              }
-              fullWidth
-            >
-              {cargos.map((cargo) => (
-                <MenuItem key={cargo.cargo_id} value={cargo.cargo_id}>
-                  {cargo.nome}
-                </MenuItem>
-              ))}
-            </TextField>
-            <DateField
-              label="Data de Contratação"
-              value={dayjs(formData.data_contratacao)}
-              onChange={handleDateChange}
-            />
-            <TextField
-              label="URL da Imagem"
-              name="imagem_url"
-              value={formData.imagem_url || ''}
-              onChange={handleChange}
-              fullWidth
-            />
+            <TextField label="Nome" name="primeiro_nome" value={formData.primeiro_nome || ''} onChange={handleChange} fullWidth />
+            <TextField label="Sobrenome" name="sobrenome" value={formData.sobrenome || ''} onChange={handleChange} fullWidth />
+            <TextField label="Email" name="email" value={formData.email || ''} onChange={handleChange} fullWidth type="email" />
+            <DateField label="Data de Nascimento" value={dayjs(formData.data_nascimento)} onChange={handleDateChange} />
+            <TextField label="URL da Imagem" name="imagem_url" value={formData.imagem_url || ''} onChange={handleChange} fullWidth />
           </Stack>
         </CardContent>
         <CardActions>
-          <Button variant="contained" color="primary" onClick={() => setConfirmUpdateOpen(true)}>
-            Atualizar
-          </Button>
-          <Button startIcon={<DeleteIcon />} color="error" onClick={() => setConfirmDeleteOpen(true)}>
-            Excluir
-          </Button>
-          <Button onClick={onClose}>Cancelar</Button>
+          <Stack flexDirection={'column'} gap={2} alignItems={'center'} alignContent={'center'} width={'100%'}>
+            <Button variant="contained" color="primary" onClick={() => setConfirmUpdateOpen(true)}>
+              {botaoTexto}
+            </Button>
+            {cliente && (
+              <Button startIcon={<DeleteIcon />} color="error" onClick={() => setConfirmDeleteOpen(true)}>
+                Excluir
+              </Button>
+            )}
+            <Button onClick={onClose}>Cancelar</Button>
+          </Stack>
         </CardActions>
       </Card>
 
@@ -191,15 +139,15 @@ const PersonFormFunc: React.FC<PersonFormFuncProps> = ({
       </Dialog>
 
       <Dialog open={confirmUpdateOpen} onClose={() => setConfirmUpdateOpen(false)}>
-        <DialogTitle>Confirmar Atualização</DialogTitle>
+        <DialogTitle>Confirmar {cliente ? 'Atualização' : 'Cadastro'}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Tem certeza de que deseja atualizar <strong>{formData.primeiro_nome} {formData.sobrenome}</strong>?
+            Tem certeza de que deseja {cliente ? 'atualizar' : 'cadastrar'} <strong>{formData.primeiro_nome} {formData.sobrenome}</strong>?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setConfirmUpdateOpen(false)}>Cancelar</Button>
-          <Button onClick={handleSubmit}>Confirmar</Button>
+          <Button onClick={handleSubmit}>{botaoTexto}</Button>
         </DialogActions>
       </Dialog>
 
@@ -212,4 +160,4 @@ const PersonFormFunc: React.FC<PersonFormFuncProps> = ({
   );
 };
 
-export default PersonFormFunc;
+export default PersonFormUser;

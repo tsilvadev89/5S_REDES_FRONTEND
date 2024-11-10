@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { clienteService } from '../../../../../../services/clienteService';
-import { funcionarioService } from '../../../../../../services/funcionarioService';
-import { cargoService } from '../../../../../../services/cargoService';
-import { Cliente } from '../../../../../../models/Cliente';
-import { Funcionario } from '../../../../../../models/Funcionario';
-import { Cargo } from '../../../../../../models/Cargo';
+import { clienteService } from '../../../../../services/clienteService';
+import { funcionarioService } from '../../../../../services/funcionarioService';
+import { cargoService } from '../../../../../services/cargoService';
+import { Cliente } from '../../../../../models/Cliente';
+import { Funcionario } from '../../../../../models/Funcionario';
+import { Cargo } from '../../../../../models/Cargo';
 import {
   Stack,
   Button,
@@ -12,17 +12,13 @@ import {
   Alert,
   Typography,
   useMediaQuery,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   ToggleButton,
-  ToggleButtonGroup
+  ToggleButtonGroup,
 } from '@mui/material';
 import UserTableUser from './UserTableUser';
 import UserTableFunc from './UserTableFunc';
-import UserCardList from './UserCardList';
+import UserCardListUser from './UserCardListUser';
+import UserCardListFunc from './UserCardListFunc';
 import PersonFormUser from './PersonFormUser';
 import PersonFormFunc from './PersonFormFunc';
 
@@ -34,9 +30,6 @@ const UserManagement: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [confirmationOpen, setConfirmationOpen] = useState(false);
-  const [confirmationAction, setConfirmationAction] = useState<() => void>(() => {});
-  const [confirmationMessage, setConfirmationMessage] = useState('');
   const [view, setView] = useState<'clientes' | 'funcionarios'>('clientes');
   const isMobile = useMediaQuery('(max-width:600px)');
 
@@ -86,12 +79,6 @@ const UserManagement: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const confirmAction = (action: () => void, message: string) => {
-    setConfirmationAction(() => action);
-    setConfirmationMessage(message);
-    setConfirmationOpen(true);
-  };
-
   const handleDeleteConfirmed = async (userId: number) => {
     try {
       if (view === 'clientes') {
@@ -106,47 +93,29 @@ const UserManagement: React.FC = () => {
     }
   };
 
-  const handleDelete = (userId: number) => {
-    const user = (view === 'clientes' ? clientes : funcionarios).find(
-      (u) => (view === 'clientes' ? u.cliente_id : u.funcionario_id) === userId
-    );
-    const userName = user ? `${user.primeiro_nome} ${user.sobrenome}` : 'Usuário';
-
-    confirmAction(() => handleDeleteConfirmed(userId), `Tem certeza que deseja excluir ${userName}?`);
-  };
-
-  const handleSave = (user: Cliente | Funcionario) => {
-    const actionType = (user as Cliente).cliente_id || (user as Funcionario).funcionario_id ? 'atualizar' : 'cadastrar';
-    const userName = `${user.primeiro_nome} ${user.sobrenome}`;
-    confirmAction(async () => {
-      try {
-        if (view === 'clientes') {
-          const cliente = user as Cliente;
-          if (cliente.cliente_id) {
-            await clienteService.updateCliente(cliente.cliente_id, cliente);
-          } else {
-            await clienteService.createCliente(cliente);
-          }
+  const handleSave = async (user: Cliente | Funcionario) => {
+    try {
+      if (view === 'clientes') {
+        const cliente = user as Cliente;
+        if (cliente.cliente_id) {
+          await clienteService.updateCliente(cliente.cliente_id, cliente);
         } else {
-          const funcionario = user as Funcionario;
-          if (funcionario.funcionario_id) {
-            await funcionarioService.updateFuncionario(funcionario.funcionario_id, funcionario);
-          } else {
-            await funcionarioService.createFuncionario(funcionario);
-          }
+          await clienteService.createCliente(cliente);
         }
-        setSuccess(true);
-        view === 'clientes' ? fetchClientes() : fetchFuncionarios();
-        setIsModalOpen(false);
-      } catch (error) {
-        setError(`Erro ao salvar ${view === 'clientes' ? 'cliente' : 'funcionário'}.`);
+      } else {
+        const funcionario = user as Funcionario;
+        if (funcionario.funcionario_id) {
+          await funcionarioService.updateFuncionario(funcionario.funcionario_id, funcionario);
+        } else {
+          await funcionarioService.createFuncionario(funcionario);
+        }
       }
-    }, `Tem certeza que deseja ${actionType} ${userName}?`);
-  };
-
-  const handleConfirm = () => {
-    confirmationAction();
-    setConfirmationOpen(false);
+      setSuccess(true);
+      view === 'clientes' ? fetchClientes() : fetchFuncionarios();
+      setIsModalOpen(false);
+    } catch (error) {
+      setError(`Erro ao salvar ${view === 'clientes' ? 'cliente' : 'funcionário'}.`);
+    }
   };
 
   return (
@@ -172,22 +141,15 @@ const UserManagement: React.FC = () => {
       </Button>
       
       {isMobile ? (
-        <UserCardList 
-          clientes={view === 'clientes' ? clientes : funcionarios} 
-          onEdit={handleEdit} 
-          onDelete={handleDelete} 
-        />
+        view === 'clientes' ? (
+          <UserCardListUser clientes={clientes} onEdit={handleEdit} />
+        ) : (
+          <UserCardListFunc funcionarios={funcionarios} cargos={cargos} onEdit={handleEdit} />
+        )
       ) : view === 'clientes' ? (
-        <UserTableUser 
-          clientes={clientes}
-          onEdit={handleEdit} 
-        />
+        <UserTableUser clientes={clientes} onEdit={handleEdit} />
       ) : (
-        <UserTableFunc 
-          funcionarios={funcionarios}
-          cargos={cargos}
-          onEdit={handleEdit} 
-        />
+        <UserTableFunc funcionarios={funcionarios} cargos={cargos} onEdit={handleEdit} />
       )}
 
       {view === 'clientes' ? (
@@ -220,28 +182,6 @@ const UserManagement: React.FC = () => {
           {error}
         </Alert>
       </Snackbar>
-
-      <Dialog
-        open={confirmationOpen}
-        onClose={() => setConfirmationOpen(false)}
-        aria-labelledby="confirm-dialog-title"
-        aria-describedby="confirm-dialog-description"
-      >
-        <DialogTitle id="confirm-dialog-title">Confirmação</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="confirm-dialog-description">
-            {confirmationMessage}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setConfirmationOpen(false)} color="primary">
-            Cancelar
-          </Button>
-          <Button onClick={handleConfirm} color="primary" autoFocus>
-            Confirmar
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Stack>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Funcionario } from '../../../../../../models/Funcionario';
-import { Cargo } from '../../../../../../models/Cargo';
+import { Produto } from '../../../../../models/Produto';
+import { Categoria } from '../../../../../models/Categoria';
 import {
   Table,
   TableBody,
@@ -11,49 +11,43 @@ import {
   Paper,
   Avatar,
   TableSortLabel,
-  useMediaQuery,
   IconButton,
   Popover,
   TextField,
-  Button,
   Tooltip,
+  useMediaQuery,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 
-interface UserTableFuncProps {
-  funcionarios: Funcionario[];
-  cargos: Cargo[];
-  onEdit: (funcionario: Funcionario) => void;
+interface ProdutoTableProps {
+  produtos: Produto[];
+  categorias: Categoria[];
+  onEdit: (produto: Produto) => void;
 }
 
-const UserTableFunc: React.FC<UserTableFuncProps> = ({ funcionarios, cargos, onEdit }) => {
+const ProdutoTable: React.FC<ProdutoTableProps> = ({ produtos, categorias, onEdit }) => {
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
-  const [orderBy, setOrderBy] = useState<keyof Funcionario>('primeiro_nome');
+  const [orderBy, setOrderBy] = useState<keyof Produto>('nome');
   const [filters, setFilters] = useState<{ [key: string]: string }>({});
   const [anchorEl, setAnchorEl] = useState<{ [key: string]: HTMLElement | null }>({});
   const isMobile = useMediaQuery('(max-width:600px)'); // Responsividade
 
-  const getCargoNome = (cargoId: number) => {
-    const cargo = cargos.find((c) => c.cargo_id === cargoId);
-    return cargo ? cargo.nome : 'Cargo não encontrado';
-  };
-
-  const handleRequestSort = (property: keyof Funcionario) => {
+  const handleRequestSort = (property: keyof Produto) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
-  const handleFilterChange = (property: keyof Funcionario, value: string) => {
+  const handleFilterChange = (property: keyof Produto, value: string) => {
     setFilters((prevFilters) => ({ ...prevFilters, [property]: value }));
   };
 
-  const handleSearchIconClick = (event: React.MouseEvent<HTMLElement>, property: keyof Funcionario) => {
+  const handleSearchIconClick = (event: React.MouseEvent<HTMLElement>, property: keyof Produto) => {
     setAnchorEl({ ...anchorEl, [property]: event.currentTarget });
   };
 
-  const handlePopoverClose = (property: keyof Funcionario) => {
+  const handlePopoverClose = (property: keyof Produto) => {
     setAnchorEl({ ...anchorEl, [property]: null });
   };
 
@@ -61,10 +55,15 @@ const UserTableFunc: React.FC<UserTableFuncProps> = ({ funcionarios, cargos, onE
     setFilters({});
   };
 
-  const filteredAndSortedFuncionarios = funcionarios
-    .filter((funcionario) =>
+  const getCategoriaNome = (categoriaId: number) => {
+    const categoria = categorias.find((cat) => cat.categoria_id === categoriaId);
+    return categoria ? categoria.nome : 'N/A';
+  };
+
+  const filteredAndSortedProdutos = produtos
+    .filter((produto) =>
       Object.keys(filters).every((key) =>
-        funcionario[key as keyof Funcionario]?.toString().toLowerCase().includes(filters[key].toLowerCase())
+        produto[key as keyof Produto]?.toString().toLowerCase().includes(filters[key].toLowerCase())
       )
     )
     .sort((a, b) => {
@@ -79,17 +78,17 @@ const UserTableFunc: React.FC<UserTableFuncProps> = ({ funcionarios, cargos, onE
       <Table stickyHeader={isMobile}>
         <TableHead>
           <TableRow>
-            {['Imagem', 'Nome', 'Email', 'Cargo', 'Data de Contratação'].map((header, index) => (
+            {['Imagem', 'Nome', 'Preço', 'Estoque', 'Categoria'].map((header, index) => (
               <TableCell key={header} style={{ fontWeight: 'bold' }}>
                 {index === 0 ? (
                   header
                 ) : (
                   <TableSortLabel
-                    active={orderBy === (index === 1 ? 'primeiro_nome' : index === 2 ? 'email' : index === 3 ? 'cargo_id' : 'data_contratacao')}
-                    direction={orderBy === (index === 1 ? 'primeiro_nome' : index === 2 ? 'email' : index === 3 ? 'cargo_id' : 'data_contratacao') ? order : 'asc'}
+                    active={orderBy === (index === 1 ? 'nome' : index === 2 ? 'preco' : index === 3 ? 'estoque' : 'categoria_id')}
+                    direction={orderBy === (index === 1 ? 'nome' : index === 2 ? 'preco' : index === 3 ? 'estoque' : 'categoria_id') ? order : 'asc'}
                     onClick={() =>
                       handleRequestSort(
-                        index === 1 ? 'primeiro_nome' : index === 2 ? 'email' : index === 3 ? 'cargo_id' : 'data_contratacao'
+                        index === 1 ? 'nome' : index === 2 ? 'preco' : index === 3 ? 'estoque' : 'categoria_id'
                       )
                     }
                   >
@@ -100,20 +99,20 @@ const UserTableFunc: React.FC<UserTableFuncProps> = ({ funcionarios, cargos, onE
                   <>
                     <IconButton
                       size="small"
-                      color={filters[index === 1 ? 'primeiro_nome' : index === 2 ? 'email' : index === 3 ? 'cargo_id' : 'data_contratacao'] ? 'primary' : 'default'}
+                      color={filters[index === 1 ? 'nome' : index === 2 ? 'preco' : index === 3 ? 'estoque' : 'categoria_id'] ? 'primary' : 'default'}
                       onClick={(event) =>
                         handleSearchIconClick(
                           event,
-                          index === 1 ? 'primeiro_nome' : index === 2 ? 'email' : index === 3 ? 'cargo_id' : 'data_contratacao'
+                          index === 1 ? 'nome' : index === 2 ? 'preco' : index === 3 ? 'estoque' : 'categoria_id'
                         )
                       }
                     >
                       <SearchIcon fontSize="small" />
                     </IconButton>
                     <Popover
-                      open={Boolean(anchorEl[index === 1 ? 'primeiro_nome' : index === 2 ? 'email' : index === 3 ? 'cargo_id' : 'data_contratacao'])}
-                      anchorEl={anchorEl[index === 1 ? 'primeiro_nome' : index === 2 ? 'email' : index === 3 ? 'cargo_id' : 'data_contratacao']}
-                      onClose={() => handlePopoverClose(index === 1 ? 'primeiro_nome' : index === 2 ? 'email' : index === 3 ? 'cargo_id' : 'data_contratacao')}
+                      open={Boolean(anchorEl[index === 1 ? 'nome' : index === 2 ? 'preco' : index === 3 ? 'estoque' : 'categoria_id'])}
+                      anchorEl={anchorEl[index === 1 ? 'nome' : index === 2 ? 'preco' : index === 3 ? 'estoque' : 'categoria_id']}
+                      onClose={() => handlePopoverClose(index === 1 ? 'nome' : index === 2 ? 'preco' : index === 3 ? 'estoque' : 'categoria_id')}
                       anchorOrigin={{
                         vertical: 'bottom',
                         horizontal: 'center',
@@ -129,7 +128,7 @@ const UserTableFunc: React.FC<UserTableFuncProps> = ({ funcionarios, cargos, onE
                         placeholder={`Filtrar ${header}`}
                         onChange={(e) =>
                           handleFilterChange(
-                            index === 1 ? 'primeiro_nome' : index === 2 ? 'email' : index === 3 ? 'cargo_id' : 'data_contratacao',
+                            index === 1 ? 'nome' : index === 2 ? 'preco' : index === 3 ? 'estoque' : 'categoria_id',
                             e.target.value
                           )
                         }
@@ -151,19 +150,19 @@ const UserTableFunc: React.FC<UserTableFuncProps> = ({ funcionarios, cargos, onE
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredAndSortedFuncionarios.map((funcionario) => (
+          {filteredAndSortedProdutos.map((produto) => (
             <TableRow
-              key={funcionario.funcionario_id}
-              onClick={() => onEdit(funcionario)}
+              key={produto.produto_id}
+              onClick={() => onEdit(produto)}
               style={{ cursor: 'pointer' }}
             >
               <TableCell>
-                <Avatar src={funcionario.imagem_url} alt={funcionario.primeiro_nome} />
+                <Avatar src={produto.imagem_url} alt={produto.nome} />
               </TableCell>
-              <TableCell>{`${funcionario.primeiro_nome} ${funcionario.sobrenome}`}</TableCell>
-              <TableCell>{funcionario.email}</TableCell>
-              <TableCell>{funcionario.cargo?.nome || getCargoNome(funcionario.cargo_id)}</TableCell>
-              <TableCell>{new Date(funcionario.data_contratacao).toLocaleDateString()}</TableCell>
+              <TableCell>{produto.nome}</TableCell>
+              <TableCell>{`R$ ${produto.preco.toFixed(2)}`}</TableCell>
+              <TableCell>{produto.estoque}</TableCell>
+              <TableCell>{getCategoriaNome(produto.categoria_id)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -172,4 +171,4 @@ const UserTableFunc: React.FC<UserTableFuncProps> = ({ funcionarios, cargos, onE
   );
 };
 
-export default UserTableFunc;
+export default ProdutoTable;

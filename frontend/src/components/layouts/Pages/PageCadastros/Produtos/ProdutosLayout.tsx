@@ -2,7 +2,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTemplate } from '../../../../../../theme/Template';
 import { useEffect } from 'react';
-import CadastroPessoasPage from './CadastroPessoasPage';
+import CadastroPessoasPage from './ProdutosPage';
 
 export default function CadastroPessoasLayout() {
     const theme = useTheme();

@@ -1,17 +1,17 @@
 import { Stack } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import React from 'react';
-import MenuMobile from "../../../Home/header/MenuMobile";
-import MenuDesktop from "../../../Home/header/MenuDesktop";
-import HeaderMobile from "../../../Home/header/HeaderMobile";
-import HeaderDesktop from "../../../Home/header/HeaderDesktop";
-import UserManagement from "./UserManagement";
+import MenuMobile from "../../Home/header/MenuMobile";
+import MenuDesktop from "../../Home/header/MenuDesktop";
+import HeaderMobile from "../../Home/header/HeaderMobile";
+import HeaderDesktop from "../../Home/header/HeaderDesktop";
+import ServicoManagement from "./ServicoManagement";
 
 interface LayoutProps {
     template: string;
 }
 
-const CadastroPessoasPage: React.FC<LayoutProps> = ({ template }) => {
+const CadastroServicoPage: React.FC<LayoutProps> = ({ template }) => {
 
     const Header = template === 'mobile' ? HeaderMobile : HeaderDesktop;
     const Menu = template === 'mobile' ? MenuMobile : MenuDesktop;
@@ -42,10 +42,10 @@ const CadastroPessoasPage: React.FC<LayoutProps> = ({ template }) => {
             </Stack>
             <Divider flexItem={true} />
             <Stack gap={4}>
-                <UserManagement/>
+                <ServicoManagement/>
             </Stack>
         </Stack>
     );
 };
 
-export default CadastroPessoasPage;
+export default CadastroServicoPage;

@@ -5,13 +5,13 @@ import MenuMobile from "../../Home/header/MenuMobile";
 import MenuDesktop from "../../Home/header/MenuDesktop";
 import HeaderMobile from "../../Home/header/HeaderMobile";
 import HeaderDesktop from "../../Home/header/HeaderDesktop";
-import CadastroServicos from "./CadastroServicos";
+import UserManagement from "./UserManagement";
 
 interface LayoutProps {
     template: string;
 }
 
-const CadastroServicosPage: React.FC<LayoutProps> = ({ template }) => {
+const CadastroPessoasPage: React.FC<LayoutProps> = ({ template }) => {
 
     const Header = template === 'mobile' ? HeaderMobile : HeaderDesktop;
     const Menu = template === 'mobile' ? MenuMobile : MenuDesktop;
@@ -42,10 +42,10 @@ const CadastroServicosPage: React.FC<LayoutProps> = ({ template }) => {
             </Stack>
             <Divider flexItem={true} />
             <Stack gap={4}>
-                <CadastroServicos/>
+                <UserManagement/>
             </Stack>
         </Stack>
     );
 };
 
-export default CadastroServicosPage;
+export default CadastroPessoasPage;

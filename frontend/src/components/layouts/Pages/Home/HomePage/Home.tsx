@@ -1,6 +1,9 @@
 import React from 'react';
-import CarouselCard from '../body/CardItens';
-import FilterComponent from '../body/ListFilter';
+import CarouselCardServices from '../body/CarouselCardServices';
+import ListFilterServices from '../body/ListFilterServices';
+import { Divider, Stack } from '@mui/material';
+import CarouselCardProdutos from '../body/CarouselCardProdutos';
+import ListFilterProdutos from '../body/ListFilterProdutos';
 
 interface HomePageProps {
     template: string;
@@ -9,8 +12,19 @@ interface HomePageProps {
 const Home: React.FC<HomePageProps> = ({ template }) => {
     return (
         <>
-            <CarouselCard template={template} />
-            <FilterComponent />
+            <Stack flexDirection={'column'} gap={10}>
+                <Stack>
+                    <CarouselCardServices template={template} />
+                    <ListFilterServices />
+                </Stack>
+
+                <Divider/>
+
+                <Stack>
+                    <CarouselCardProdutos template={template} />
+                    <ListFilterProdutos />
+                </Stack>
+            </Stack>
         </>
     );
 };

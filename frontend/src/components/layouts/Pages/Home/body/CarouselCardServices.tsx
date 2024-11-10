@@ -9,7 +9,7 @@ interface PropsCarousel {
   template: string;
 }
 
-const CarouselCard: React.FC<PropsCarousel> = ({ template }) => {
+const CarouselCardServices: React.FC<PropsCarousel> = ({ template }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [categorias, setCategorias] = useState<Categoria[]>([]);
 
@@ -17,7 +17,10 @@ const CarouselCard: React.FC<PropsCarousel> = ({ template }) => {
     const fetchData = async () => {
       try {
         const fetchedCategorias = await categoriaService.getAllCategorias();
-        setCategorias(fetchedCategorias);
+        const serviceCategories = Array.isArray(fetchedCategorias)
+          ? fetchedCategorias.filter((category) => category.tipo === 'Serviço')
+          : [];
+        setCategorias(serviceCategories);
       } catch (error) {
         console.error('Erro ao buscar categorias:', error);
       }
@@ -26,14 +29,12 @@ const CarouselCard: React.FC<PropsCarousel> = ({ template }) => {
   }, []);
 
   useEffect(() => {
-    // Configura o intervalo para avançar automaticamente
     const interval = setInterval(() => {
       setActiveStep((prevActiveStep) =>
         prevActiveStep === categorias.length - 1 ? 0 : prevActiveStep + 1
       );
-    }, 5000); // Timing Carrocel
+    }, 5000);
 
-    // Limpa o intervalo quando o componente é desmontado
     return () => clearInterval(interval);
   }, [categorias.length]);
 
@@ -53,7 +54,7 @@ const CarouselCard: React.FC<PropsCarousel> = ({ template }) => {
     handleNext();
   };
 
-  if (categorias.length === 0) return null; // Aguarda carregamento dos dados
+  if (categorias.length === 0) return null;
 
   const currentCategoria = categorias[activeStep];
 
@@ -69,8 +70,11 @@ const CarouselCard: React.FC<PropsCarousel> = ({ template }) => {
     >
       <CardMedia
         component="img"
-        height={template === 'mobile' ? 200 : 400}
-        width="auto"
+        sx={{
+          height: 300, // Define uma altura fixa
+          width: '100%', // Preenche a largura do card para manter a imagem responsiva
+          objectFit: 'cover', // Corta a imagem para manter as proporções
+        }}
         image={currentCategoria.imagem_url || 'default_image_path.jpg'} 
         alt={currentCategoria.nome}
         onClick={handleImageClick}
@@ -94,4 +98,4 @@ const CarouselCard: React.FC<PropsCarousel> = ({ template }) => {
   );
 };
 
-export default CarouselCard;
+export default CarouselCardServices;

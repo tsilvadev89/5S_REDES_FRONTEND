@@ -1,21 +1,17 @@
 import React from 'react';
-import { Cliente } from '../../../../../../models/Cliente';
-import { Card, CardContent, CardActions, Typography, Avatar, IconButton, Stack, Box } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Cliente } from '../../../../../models/Cliente';
+import { Card, CardContent, Stack, Typography, Avatar, Box } from '@mui/material';
 
-interface UserCardListProps {
+interface UserCardListUserProps {
   clientes: Cliente[];
   onEdit: (cliente: Cliente) => void;
-  onDelete: (clienteId: number) => void;
 }
 
-const UserCardList: React.FC<UserCardListProps> = ({ clientes, onEdit, onDelete }) => {
+const UserCardListUser: React.FC<UserCardListUserProps> = ({ clientes, onEdit }) => {
   return (
     <Stack spacing={2}>
       {clientes.map((cliente) => (
         <Card key={cliente.cliente_id} variant="outlined">
-          {/* Tornando o conteúdo do Card clicável */}
           <Box onClick={() => onEdit(cliente)} sx={{ cursor: 'pointer' }}>
             <CardContent>
               <Stack direction="row" spacing={2} alignItems="center">
@@ -38,4 +34,4 @@ const UserCardList: React.FC<UserCardListProps> = ({ clientes, onEdit, onDelete 
   );
 };
 
-export default UserCardList;
+export default UserCardListUser;

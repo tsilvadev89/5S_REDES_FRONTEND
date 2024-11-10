@@ -5,7 +5,8 @@ import MenuMobile from "../../Home/header/MenuMobile";
 import MenuDesktop from "../../Home/header/MenuDesktop";
 import HeaderMobile from "../../Home/header/HeaderMobile";
 import HeaderDesktop from "../../Home/header/HeaderDesktop";
-import CadastroProdutos from "./CadastroProdutos";
+import ProdutosPage from "./ProdutosPage";
+import ProdutosManagement from "./ProdutosManagement";
 
 interface LayoutProps {
     template: string;
@@ -42,7 +43,7 @@ const CadastroProdutosPage: React.FC<LayoutProps> = ({ template }) => {
             </Stack>
             <Divider flexItem={true} />
             <Stack gap={4}>
-                <CadastroProdutos/>
+                <ProdutosManagement/>
             </Stack>
         </Stack>
     );
