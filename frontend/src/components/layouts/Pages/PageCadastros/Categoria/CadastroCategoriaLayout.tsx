@@ -2,9 +2,9 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTemplate } from '../../../../../theme/Template';
 import { useEffect } from 'react';
-import CadastroEmpresaPage from './CadastroEmpresaPage';
+import CadastroCategoriaPage from './CadastroCategoriaPage';
 
-export default function CadastroEmpresaLayout() {
+export default function CadastroCategoriaLayout() {
     const theme = useTheme();
     const { template: currentTemplate, setTemplate } = useTemplate();
 
@@ -28,8 +28,8 @@ export default function CadastroEmpresaLayout() {
     }, [currentTemplate, setTemplate]);
 
     return (
-        <CadastroEmpresaPage template={currentTemplate}>
+        <CadastroCategoriaPage template={currentTemplate}>
             
-        </CadastroEmpresaPage>
+        </CadastroCategoriaPage>
     );
 }

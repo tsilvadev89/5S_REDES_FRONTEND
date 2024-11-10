@@ -1,18 +1,17 @@
-import CadastroEmpresa from './CadastroEmpresa';
 import { Stack } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import React from 'react';
-import HeaderDesktop from '../../Home/header/HeaderDesktop';
-import HeaderMobile from '../../Home/header/HeaderMobile';
-import MenuDesktop from '../../Home/header/MenuDesktop';
-import MenuMobile from '../../Home/header/MenuMobile';
-
+import MenuMobile from "../../Home/header/MenuMobile";
+import MenuDesktop from "../../Home/header/MenuDesktop";
+import HeaderMobile from "../../Home/header/HeaderMobile";
+import HeaderDesktop from "../../Home/header/HeaderDesktop";
+import CategoriaManagement from "./CategoriaManagement";
 
 interface LayoutProps {
     template: string;
 }
 
-const CadastroEmpresaPage: React.FC<LayoutProps> = ({ template }) => {
+const CadastroCategoriaPage: React.FC<LayoutProps> = ({ template }) => {
 
     const Header = template === 'mobile' ? HeaderMobile : HeaderDesktop;
     const Menu = template === 'mobile' ? MenuMobile : MenuDesktop;
@@ -43,10 +42,10 @@ const CadastroEmpresaPage: React.FC<LayoutProps> = ({ template }) => {
             </Stack>
             <Divider flexItem={true} />
             <Stack gap={4}>
-                <CadastroEmpresa/>
+                <CategoriaManagement/>
             </Stack>
         </Stack>
     );
 };
 
-export default CadastroEmpresaPage;
+export default CadastroCategoriaPage;

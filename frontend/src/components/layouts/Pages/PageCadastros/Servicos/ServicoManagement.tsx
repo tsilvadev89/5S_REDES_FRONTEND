@@ -38,8 +38,15 @@ const ServicoManagement: React.FC = () => {
   const fetchCategorias = async () => {
     try {
       const response = await categoriaService.getAllCategorias();
-      const filteredCategories = response.filter((categoria: Categoria) => categoria.tipo === 'Servico');
+      console.log('response');
+      console.table(response);
+
+      const filteredCategories = response.filter((categoria: Categoria) => categoria.tipo === 'Serviço');
       setCategorias(filteredCategories);
+
+      console.log('filteredCategories');
+      console.table(filteredCategories);
+
     } catch (error) {
       console.error('Erro ao buscar categorias:', error);
       setError('Erro ao buscar categorias.');

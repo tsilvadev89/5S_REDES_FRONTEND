@@ -6,4 +6,5 @@ export interface Servico {
   duracao: string;
   ativo: boolean;
   imagem_url?: string; 
+  categoria_id: number;
 }

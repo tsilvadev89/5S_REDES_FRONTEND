@@ -7,10 +7,10 @@ import Divider from '@mui/material/Divider';
 
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
-import FactoryIcon from '@mui/icons-material/Factory';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import { Category } from '@mui/icons-material';
 
 interface CustomListProps {
   navigateToPage: (path: string) => void;
@@ -48,16 +48,6 @@ function CustomList({ navigateToPage }: CustomListProps) {
           </ListItemButton>
         </ListItem>
 
-        {/* EMPRESAS */}
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => navigateToPage('/cadastroempresa')}>
-            <ListItemIcon>
-              <FactoryIcon /> {/* ICON */}
-            </ListItemIcon>
-            <ListItemText primary="Empresas" /> {/* TEXT */}
-          </ListItemButton>
-        </ListItem>
-
         {/* SERVIÇOS */}
         <ListItem disablePadding>
           <ListItemButton onClick={() => navigateToPage('/cadastroservicos')}>
@@ -77,7 +67,20 @@ function CustomList({ navigateToPage }: CustomListProps) {
           </ListItemButton>
         </ListItem>
       </List>
+
+      {/* EMPRESAS */}
+      <ListItem disablePadding>
+        <ListItemButton onClick={() => navigateToPage('/categorias')}>
+          <ListItemIcon>
+            <Category/>
+          </ListItemIcon>
+          <ListItemText primary="Categorias" /> {/* TEXT */}
+        </ListItemButton>
+      </ListItem>
+
+
       <Divider />
+
 
       {/* Listagem */}
       <List>

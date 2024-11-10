@@ -13,7 +13,7 @@ const drawerWidth = 200;
 const pages: Page[] = [
     { url: '/', name: 'Home' },
     { url: '/cadastropessoas', name: 'Cadastro de Pessoas' },
-    { url: '/cadastroempresa', name: 'Cadastro de Empresa' },
+    { url: '/categorias', name: 'Cadastro Categorias' },
     { url: '/cadastroservicos', name: 'Cadastro de Serviços' },
     { url: '/cadastroproduto', name: 'Cadastro de Produto' },
     { url: '/dashboard', name: 'Dashboard' },

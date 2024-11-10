@@ -16,7 +16,7 @@ export default function MenuMobile() {
     const pages = [
         { url: '/', name: 'home' },
         { url: '/cadastropessoas', name: 'cadastropessoas'},
-        { url: '/cadastroempresa', name: 'cadastroempresa'},
+        { url: '/categorias', name: 'Cadastro Categorias' },
         { url: '/cadastroservicos', name: 'cadastroservicos'},
         { url: '/cadastroproduto', name: 'cadastroproduto'},
         { url: '/dashboard', name: 'dashboard'},
