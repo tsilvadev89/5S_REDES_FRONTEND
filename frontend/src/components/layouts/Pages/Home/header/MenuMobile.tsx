@@ -14,12 +14,15 @@ export default function MenuMobile() {
     const navigate = useNavigate();
 
     const pages = [
-        { url: '/', name: 'home' },
-        { url: '/cadastropessoas', name: 'cadastropessoas'},
+       /*  { url: '/', name: 'Login' },
+        { url: '/home', name: 'Home' }, */
+        { url: '/', name: 'Home' },
+        { url: '/cadastropessoas', name: 'Cadastro de Pessoas' },
+        { url: '/cadastroservicos', name: 'Cadastro de Serviços' },
+        { url: '/cadastroproduto', name: 'Cadastro de Produto' },
         { url: '/categorias', name: 'Cadastro Categorias' },
-        { url: '/cadastroservicos', name: 'cadastroservicos'},
-        { url: '/cadastroproduto', name: 'cadastroproduto'},
-        { url: '/dashboard', name: 'dashboard'},
+        { url: '/cargos', name: 'Cadastro Cargos' },
+        { url: '/dashboard', name: 'Dashboard' },
     ];
 
     const navigateToPage = (url: string) => {

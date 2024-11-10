@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Servico } from '../../../../../models/Servico';
-import { Categoria } from '../../../../../models/Categoria';
+import { Cargo } from '../../../../../models/Cargo';
 import {
   Table,
   TableBody,
@@ -20,34 +19,33 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 
-interface ServicoTableProps {
-  servicos: Servico[];
-  categorias: Categoria[];
-  onEdit: (servico: Servico) => void;
+interface CargoTableProps {
+  cargos: Cargo[];
+  onEdit: (cargo: Cargo) => void;
 }
 
-const ServicoTable: React.FC<ServicoTableProps> = ({ servicos, categorias, onEdit }) => {
+const CargoTable: React.FC<CargoTableProps> = ({ cargos, onEdit }) => {
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
-  const [orderBy, setOrderBy] = useState<keyof Servico>('nome');
+  const [orderBy, setOrderBy] = useState<keyof Cargo>('nome');
   const [filters, setFilters] = useState<{ [key: string]: string }>({});
   const [anchorEl, setAnchorEl] = useState<{ [key: string]: HTMLElement | null }>({});
   const isMobile = useMediaQuery('(max-width:600px)');
 
-  const handleRequestSort = (property: keyof Servico) => {
+  const handleRequestSort = (property: keyof Cargo) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
-  const handleFilterChange = (property: keyof Servico, value: string) => {
+  const handleFilterChange = (property: keyof Cargo, value: string) => {
     setFilters((prevFilters) => ({ ...prevFilters, [property]: value }));
   };
 
-  const handleSearchIconClick = (event: React.MouseEvent<HTMLElement>, property: keyof Servico) => {
+  const handleSearchIconClick = (event: React.MouseEvent<HTMLElement>, property: keyof Cargo) => {
     setAnchorEl({ ...anchorEl, [property]: event.currentTarget });
   };
 
-  const handlePopoverClose = (property: keyof Servico) => {
+  const handlePopoverClose = (property: keyof Cargo) => {
     setAnchorEl({ ...anchorEl, [property]: null });
   };
 
@@ -55,20 +53,15 @@ const ServicoTable: React.FC<ServicoTableProps> = ({ servicos, categorias, onEdi
     setFilters({});
   };
 
-  const getCategoriaNome = (categoriaId: number) => {
-    const categoria = categorias.find((cat) => cat.categoria_id === categoriaId);
-    return categoria ? categoria.nome : 'N/A';
-  };
-
-  const getSafeValue = (servico: Servico, property: keyof Servico) => {
-    const value = servico[property];
+  const getSafeValue = (cargo: Cargo, property: keyof Cargo) => {
+    const value = cargo[property];
     return value !== undefined && value !== null ? value.toString().toLowerCase() : "";
   };
   
-  const filteredAndSortedServicos = servicos
-    .filter((servico) =>
+  const filteredAndSortedCargos = cargos
+    .filter((cargo) =>
       Object.keys(filters).every((key) =>
-        getSafeValue(servico, key as keyof Servico).includes(filters[key].toLowerCase())
+        getSafeValue(cargo, key as keyof Cargo).includes(filters[key].toLowerCase())
       )
     )
     .sort((a, b) => {
@@ -79,25 +72,22 @@ const ServicoTable: React.FC<ServicoTableProps> = ({ servicos, categorias, onEdi
       if (aValue > bValue) return isAsc ? 1 : -1;
       return 0;
     });
-  
 
   return (
     <TableContainer component={Paper}>
       <Table stickyHeader={isMobile}>
         <TableHead>
           <TableRow>
-            {['Imagem', 'Nome', 'Preço', 'Duração', 'Categoria'].map((header, index) => (
+            {['Imagem', 'Nome', 'Descrição'].map((header, index) => (
               <TableCell key={header} style={{ fontWeight: 'bold' }}>
                 {index === 0 ? (
                   header
                 ) : (
                   <TableSortLabel
-                    active={orderBy === (index === 1 ? 'nome' : index === 2 ? 'preco' : index === 3 ? 'duracao' : 'categoria_id')}
-                    direction={orderBy === (index === 1 ? 'nome' : index === 2 ? 'preco' : index === 3 ? 'duracao' : 'categoria_id') ? order : 'asc'}
+                    active={orderBy === (index === 1 ? 'nome' : 'descricao')}
+                    direction={orderBy === (index === 1 ? 'nome' : 'descricao') ? order : 'asc'}
                     onClick={() =>
-                      handleRequestSort(
-                        index === 1 ? 'nome' : index === 2 ? 'preco' : index === 3 ? 'duracao' : 'categoria_id'
-                      )
+                      handleRequestSort(index === 1 ? 'nome' : 'descricao')
                     }
                   >
                     {header}
@@ -107,20 +97,20 @@ const ServicoTable: React.FC<ServicoTableProps> = ({ servicos, categorias, onEdi
                   <>
                     <IconButton
                       size="small"
-                      color={filters[index === 1 ? 'nome' : index === 2 ? 'preco' : index === 3 ? 'duracao' : 'categoria_id'] ? 'primary' : 'default'}
+                      color={filters[index === 1 ? 'nome' : 'descricao'] ? 'primary' : 'default'}
                       onClick={(event) =>
                         handleSearchIconClick(
                           event,
-                          index === 1 ? 'nome' : index === 2 ? 'preco' : index === 3 ? 'duracao' : 'categoria_id'
+                          index === 1 ? 'nome' : 'descricao'
                         )
                       }
                     >
                       <SearchIcon fontSize="small" />
                     </IconButton>
                     <Popover
-                      open={Boolean(anchorEl[index === 1 ? 'nome' : index === 2 ? 'preco' : index === 3 ? 'duracao' : 'categoria_id'])}
-                      anchorEl={anchorEl[index === 1 ? 'nome' : index === 2 ? 'preco' : index === 3 ? 'duracao' : 'categoria_id']}
-                      onClose={() => handlePopoverClose(index === 1 ? 'nome' : index === 2 ? 'preco' : index === 3 ? 'duracao' : 'categoria_id')}
+                      open={Boolean(anchorEl[index === 1 ? 'nome' : 'descricao'])}
+                      anchorEl={anchorEl[index === 1 ? 'nome' : 'descricao']}
+                      onClose={() => handlePopoverClose(index === 1 ? 'nome' : 'descricao')}
                       anchorOrigin={{
                         vertical: 'bottom',
                         horizontal: 'center',
@@ -136,7 +126,7 @@ const ServicoTable: React.FC<ServicoTableProps> = ({ servicos, categorias, onEdi
                         placeholder={`Filtrar ${header}`}
                         onChange={(e) =>
                           handleFilterChange(
-                            index === 1 ? 'nome' : index === 2 ? 'preco' : index === 3 ? 'duracao' : 'categoria_id',
+                            index === 1 ? 'nome' : 'descricao',
                             e.target.value
                           )
                         }
@@ -158,19 +148,17 @@ const ServicoTable: React.FC<ServicoTableProps> = ({ servicos, categorias, onEdi
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredAndSortedServicos.map((servico) => (
+          {filteredAndSortedCargos.map((cargo) => (
             <TableRow
-              key={servico.servico_id}
-              onClick={() => onEdit(servico)}
+              key={cargo.cargo_id}
+              onClick={() => onEdit(cargo)}
               style={{ cursor: 'pointer' }}
             >
               <TableCell>
-                <Avatar src={servico.imagem_url} alt={servico.nome} />
+                <Avatar src={cargo.imagem_url} alt={cargo.nome} />
               </TableCell>
-              <TableCell>{servico.nome}</TableCell>
-              <TableCell>{`R$ ${servico.preco.toFixed(2)}`}</TableCell>
-              <TableCell>{servico.duracao}</TableCell>
-              <TableCell>{getCategoriaNome(servico.categoria_id)}</TableCell>
+              <TableCell>{cargo.nome}</TableCell>
+              <TableCell>{cargo.descricao}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -179,4 +167,4 @@ const ServicoTable: React.FC<ServicoTableProps> = ({ servicos, categorias, onEdi
   );
 };
 
-export default ServicoTable;
+export default CargoTable;

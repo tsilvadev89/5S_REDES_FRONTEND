@@ -9,6 +9,7 @@ import CadastroServicoLayout from '../components/layouts/Pages/PageCadastros/Ser
 import CadastroPessoasLayout from '../components/layouts/Pages/PageCadastros/Pessoas/CadastroPessoasLayout';
 import DashboardLayout from '../components/layouts/Pages/DashBoard/DashboardLayout';
 import CadastroCategoriaLayout from '../components/layouts/Pages/PageCadastros/Categoria/CadastroCategoriaLayout';
+import CadastroCargoLayout from '../components/layouts/Pages/PageCadastros/Cargo/CadastroCargoLayout';
 
 
 const RoutesConfig: React.FC = () => {
@@ -19,6 +20,7 @@ const RoutesConfig: React.FC = () => {
             <Route path="/cadastroproduto" element={<CadastroProdutosLayout />} />
             <Route path="/cadastroservicos" element={<CadastroServicoLayout />} />
             <Route path="/categorias" element={<CadastroCategoriaLayout />} />
+            <Route path="/cargos" element={<CadastroCargoLayout />} />
             
             <Route path="/dashboard" element={<DashboardLayout />} />
             <Route path="*" element={<NotFoundPage />} />

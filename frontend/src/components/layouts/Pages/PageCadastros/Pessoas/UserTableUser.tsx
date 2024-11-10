@@ -54,18 +54,26 @@ const UserTableUser: React.FC<UserTableUserProps> = ({ clientes, onEdit }) => {
     setFilters({});
   };
 
+  const getSafeValue = (cliente: Cliente, property: keyof Cliente) => {
+    const value = cliente[property];
+    return value !== undefined && value !== null ? value.toString().toLowerCase() : "";
+  };
+  
   const filteredAndSortedClientes = clientes
     .filter((cliente) =>
       Object.keys(filters).every((key) =>
-        cliente[key as keyof Cliente]?.toString().toLowerCase().includes(filters[key].toLowerCase())
+        getSafeValue(cliente, key as keyof Cliente).includes(filters[key].toLowerCase())
       )
     )
     .sort((a, b) => {
       const isAsc = order === 'asc';
-      if (a[orderBy] < b[orderBy]) return isAsc ? -1 : 1;
-      if (a[orderBy] > b[orderBy]) return isAsc ? 1 : -1;
+      const aValue = getSafeValue(a, orderBy);
+      const bValue = getSafeValue(b, orderBy);
+      if (aValue < bValue) return isAsc ? -1 : 1;
+      if (aValue > bValue) return isAsc ? 1 : -1;
       return 0;
     });
+  
 
   return (
     <TableContainer component={Paper}>

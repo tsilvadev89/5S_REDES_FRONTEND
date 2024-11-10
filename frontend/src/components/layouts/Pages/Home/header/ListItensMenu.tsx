@@ -10,7 +10,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import { Category } from '@mui/icons-material';
+import { Category, Work } from '@mui/icons-material';
 
 interface CustomListProps {
   navigateToPage: (path: string) => void;
@@ -68,7 +68,7 @@ function CustomList({ navigateToPage }: CustomListProps) {
         </ListItem>
       </List>
 
-      {/* EMPRESAS */}
+      {/* CATEGORIAS */}
       <ListItem disablePadding>
         <ListItemButton onClick={() => navigateToPage('/categorias')}>
           <ListItemIcon>
@@ -78,7 +78,15 @@ function CustomList({ navigateToPage }: CustomListProps) {
         </ListItemButton>
       </ListItem>
 
-
+      {/* CARGOS */}
+      <ListItem disablePadding>
+        <ListItemButton onClick={() => navigateToPage('/cargos')}>
+          <ListItemIcon>
+            <Work/>
+          </ListItemIcon>
+          <ListItemText primary="Cargos" /> {/* TEXT */}
+        </ListItemButton>
+      </ListItem>
       <Divider />
 
 

@@ -53,16 +53,23 @@ const CategoriaTable: React.FC<CategoriaTableProps> = ({ categorias, onEdit }) =
     setFilters({});
   };
 
+  const getSafeValue = (categoria: Categoria, property: keyof Categoria) => {
+    const value = categoria[property];
+    return value !== undefined && value !== null ? value.toString().toLowerCase() : "";
+  };
+  
   const filteredAndSortedCategorias = categorias
     .filter((categoria) =>
       Object.keys(filters).every((key) =>
-        categoria[key as keyof Categoria]?.toString().toLowerCase().includes(filters[key].toLowerCase())
+        getSafeValue(categoria, key as keyof Categoria).includes(filters[key].toLowerCase())
       )
     )
     .sort((a, b) => {
       const isAsc = order === 'asc';
-      if (a[orderBy] < b[orderBy]) return isAsc ? -1 : 1;
-      if (a[orderBy] > b[orderBy]) return isAsc ? 1 : -1;
+      const aValue = getSafeValue(a, orderBy);
+      const bValue = getSafeValue(b, orderBy);
+      if (aValue < bValue) return isAsc ? -1 : 1;
+      if (aValue > bValue) return isAsc ? 1 : -1;
       return 0;
     });
 

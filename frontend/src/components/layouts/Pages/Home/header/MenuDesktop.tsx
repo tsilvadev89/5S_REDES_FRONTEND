@@ -11,12 +11,16 @@ interface Page {
 const drawerWidth = 200;
 
 const pages: Page[] = [
-    { url: '/', name: 'Home' },
-    { url: '/cadastropessoas', name: 'Cadastro de Pessoas' },
-    { url: '/categorias', name: 'Cadastro Categorias' },
-    { url: '/cadastroservicos', name: 'Cadastro de Serviços' },
-    { url: '/cadastroproduto', name: 'Cadastro de Produto' },
-    { url: '/dashboard', name: 'Dashboard' },
+       /*  { url: '/', name: 'Login' },
+        { url: '/home', name: 'Home' }, */
+        { url: '/', name: 'Home' },
+        { url: '/cadastropessoas', name: 'Cadastro de Pessoas' },
+        { url: '/cadastroservicos', name: 'Cadastro de Serviços' },
+        { url: '/cadastroproduto', name: 'Cadastro de Produto' },
+        { url: '/categorias', name: 'Cadastro Categorias' },
+        { url: '/cargos', name: 'Cadastro Cargos' },
+        { url: '/dashboard', name: 'Dashboard' },
+
 ];
 
 export default function MenuDesktop() {

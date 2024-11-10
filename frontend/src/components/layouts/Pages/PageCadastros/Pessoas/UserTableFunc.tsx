@@ -61,18 +61,26 @@ const UserTableFunc: React.FC<UserTableFuncProps> = ({ funcionarios, cargos, onE
     setFilters({});
   };
 
+  const getSafeValue = (funcionario: Funcionario, property: keyof Funcionario) => {
+    const value = funcionario[property];
+    return value !== undefined && value !== null ? value.toString().toLowerCase() : "";
+  };
+  
   const filteredAndSortedFuncionarios = funcionarios
     .filter((funcionario) =>
       Object.keys(filters).every((key) =>
-        funcionario[key as keyof Funcionario]?.toString().toLowerCase().includes(filters[key].toLowerCase())
+        getSafeValue(funcionario, key as keyof Funcionario).includes(filters[key].toLowerCase())
       )
     )
     .sort((a, b) => {
       const isAsc = order === 'asc';
-      if (a[orderBy] < b[orderBy]) return isAsc ? -1 : 1;
-      if (a[orderBy] > b[orderBy]) return isAsc ? 1 : -1;
+      const aValue = getSafeValue(a, orderBy);
+      const bValue = getSafeValue(b, orderBy);
+      if (aValue < bValue) return isAsc ? -1 : 1;
+      if (aValue > bValue) return isAsc ? 1 : -1;
       return 0;
     });
+  
 
   return (
     <TableContainer component={Paper}>

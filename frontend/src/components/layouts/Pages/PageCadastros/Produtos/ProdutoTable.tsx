@@ -60,18 +60,26 @@ const ProdutoTable: React.FC<ProdutoTableProps> = ({ produtos, categorias, onEdi
     return categoria ? categoria.nome : 'N/A';
   };
 
+  const getSafeValue = (produto: Produto, property: keyof Produto) => {
+    const value = produto[property];
+    return value !== undefined && value !== null ? value.toString().toLowerCase() : "";
+  };
+  
   const filteredAndSortedProdutos = produtos
     .filter((produto) =>
       Object.keys(filters).every((key) =>
-        produto[key as keyof Produto]?.toString().toLowerCase().includes(filters[key].toLowerCase())
+        getSafeValue(produto, key as keyof Produto).includes(filters[key].toLowerCase())
       )
     )
     .sort((a, b) => {
       const isAsc = order === 'asc';
-      if (a[orderBy] < b[orderBy]) return isAsc ? -1 : 1;
-      if (a[orderBy] > b[orderBy]) return isAsc ? 1 : -1;
+      const aValue = getSafeValue(a, orderBy);
+      const bValue = getSafeValue(b, orderBy);
+      if (aValue < bValue) return isAsc ? -1 : 1;
+      if (aValue > bValue) return isAsc ? 1 : -1;
       return 0;
     });
+  
 
   return (
     <TableContainer component={Paper}>
