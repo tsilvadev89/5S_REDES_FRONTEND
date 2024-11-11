@@ -9,16 +9,46 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import { authService } from '../../../../../services/authService ';
+import { Snackbar } from '@mui/material';
+import { useNavigate } from 'react-router-dom'; 
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  // Estado para controlar a exibição da mensagem de sucesso
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+
+  // Hook para navegação
+  const navigate = useNavigate();
+
+  // Função para abrir o menu
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
+  // Função para fechar o menu
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleLogout = () => {
+    authService.logout(); // Chama o logout para limpar o localStorage
+
+    // Exibe a mensagem de sucesso
+    setOpenSnackbar(true);
+
+    // Redireciona para a página inicial após 2 segundos
+    setTimeout(() => {
+      navigate('/');
+    }, 200);
+  };
+
+  const handleConfiguration = () => {
+    navigate('/configuracao');
+  };
+
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -74,19 +104,28 @@ export default function AccountMenu() {
           <Avatar /> Minha Conta
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleConfiguration}>
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
           Configurações
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleLogout}> {/* Chama a função de logout ao clicar */}
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
           Sair
         </MenuItem>
       </Menu>
+
+      {/* Snackbar para exibir a mensagem de logout realizado */}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={2000} // Tempo que a mensagem ficará visível
+        onClose={() => setOpenSnackbar(false)}
+        message="Logout realizado com sucesso!" // Mensagem de confirmação
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} // Localização da mensagem
+      />
     </React.Fragment>
   );
 }

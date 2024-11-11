@@ -19,3 +19,4 @@ const Button: React.FC<ButtonProps> = ({ label, color = 'primary', onClick, full
 };
 
 export default Button;
+,

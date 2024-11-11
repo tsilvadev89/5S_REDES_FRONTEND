@@ -68,7 +68,17 @@ export const authService = {
 
   // Função para fazer logout e limpar os dados armazenados
   logout(): void {
+    // Limpar o token e o usuário do localStorage
     localStorage.removeItem('authToken');
     localStorage.removeItem('user');
+    
+    // (Opcional) Realizar requisição para o backend para invalidar o token (caso o backend suporte)
+    // axios.post(`${BASE_URL}/logout`, {}, { headers: { Authorization: `Bearer ${this.getToken()}` } })
+    //   .then(response => {
+    //     console.log("Logout bem-sucedido", response);
+    //   })
+    //   .catch(error => {
+    //     console.error("Erro no logout no backend", error);
+    //   });
   },
 };

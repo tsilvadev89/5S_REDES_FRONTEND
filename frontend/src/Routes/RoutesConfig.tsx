@@ -12,19 +12,27 @@ import CadastroCategoriaLayout from '../components/layouts/Pages/PageCadastros/C
 import CadastroCargoLayout from '../components/layouts/Pages/PageCadastros/Cargo/CadastroCargoLayout';
 import LoginLayout from '../components/layouts/Pages/Login/LoginLayout';
 
+import PrivateRoute from './PrivateRoute'; // Importe o PrivateRoute
+import ConfiguracaoLayout from '../components/layouts/Pages/Configuracao/ConfiguracaoLayout';
 
 const RoutesConfig: React.FC = () => {
     return (
         <Routes>
+            {/* Rota pública */}
             <Route path="/" element={<LoginLayout />} />
-            <Route path="/home" element={<HomePageLayout />} />
-            <Route path="/cadastropessoas" element={<CadastroPessoasLayout />} />
-            <Route path="/cadastroproduto" element={<CadastroProdutosLayout />} />
-            <Route path="/cadastroservicos" element={<CadastroServicoLayout />} />
-            <Route path="/categorias" element={<CadastroCategoriaLayout />} />
-            <Route path="/cargos" element={<CadastroCargoLayout />} />
-            
-            <Route path="/dashboard" element={<DashboardLayout />} />
+
+            {/* Rotas privadas, protegidas pelo PrivateRoute */}
+            <Route path="/home" element={<PrivateRoute element={<HomePageLayout />} />} />
+            <Route path="/cadastropessoas" element={<PrivateRoute element={<CadastroPessoasLayout />} />} />
+            <Route path="/cadastroproduto" element={<PrivateRoute element={<CadastroProdutosLayout />} />} />
+            <Route path="/cadastroservicos" element={<PrivateRoute element={<CadastroServicoLayout />} />} />
+            <Route path="/categorias" element={<PrivateRoute element={<CadastroCategoriaLayout />} />} />
+            <Route path="/cargos" element={<PrivateRoute element={<CadastroCargoLayout />} />} />
+            <Route path="/dashboard" element={<PrivateRoute element={<DashboardLayout />} />} />
+
+            <Route path="/configuracao" element={<PrivateRoute element={<ConfiguracaoLayout />} />} />
+
+            {/* Rota de "Página não encontrada" */}
             <Route path="*" element={<NotFoundPage />} />
         </Routes>
     );
