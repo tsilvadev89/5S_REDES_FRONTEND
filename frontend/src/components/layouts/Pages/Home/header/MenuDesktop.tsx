@@ -11,9 +11,8 @@ interface Page {
 const drawerWidth = 200;
 
 const pages: Page[] = [
-       /*  { url: '/', name: 'Login' },
-        { url: '/home', name: 'Home' }, */
-        { url: '/', name: 'Home' },
+        { url: '/', name: 'Login' },
+        { url: '/home', name: 'Home' },
         { url: '/cadastropessoas', name: 'Cadastro de Pessoas' },
         { url: '/cadastroservicos', name: 'Cadastro de Serviços' },
         { url: '/cadastroproduto', name: 'Cadastro de Produto' },

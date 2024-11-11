@@ -14,9 +14,8 @@ export default function MenuMobile() {
     const navigate = useNavigate();
 
     const pages = [
-       /*  { url: '/', name: 'Login' },
-        { url: '/home', name: 'Home' }, */
-        { url: '/', name: 'Home' },
+        { url: '/', name: 'Login' },
+        { url: '/home', name: 'Home' },
         { url: '/cadastropessoas', name: 'Cadastro de Pessoas' },
         { url: '/cadastroservicos', name: 'Cadastro de Serviços' },
         { url: '/cadastroproduto', name: 'Cadastro de Produto' },

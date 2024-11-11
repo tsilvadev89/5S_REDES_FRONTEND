@@ -22,7 +22,7 @@ function CustomList({ navigateToPage }: CustomListProps) {
       {/* HOME PAGE */}
       <List>
         <ListItem disablePadding>
-          <ListItemButton onClick={() => navigateToPage('/')}>
+          <ListItemButton onClick={() => navigateToPage('/home')}>
             <ListItemIcon>
               <HomeIcon /> {/* ICON */}
             </ListItemIcon>

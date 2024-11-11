@@ -10,12 +10,14 @@ import CadastroPessoasLayout from '../components/layouts/Pages/PageCadastros/Pes
 import DashboardLayout from '../components/layouts/Pages/DashBoard/DashboardLayout';
 import CadastroCategoriaLayout from '../components/layouts/Pages/PageCadastros/Categoria/CadastroCategoriaLayout';
 import CadastroCargoLayout from '../components/layouts/Pages/PageCadastros/Cargo/CadastroCargoLayout';
+import LoginLayout from '../components/layouts/Pages/Login/LoginLayout';
 
 
 const RoutesConfig: React.FC = () => {
     return (
         <Routes>
-            <Route path="/" element={<HomePageLayout />} />
+            <Route path="/" element={<LoginLayout />} />
+            <Route path="/home" element={<HomePageLayout />} />
             <Route path="/cadastropessoas" element={<CadastroPessoasLayout />} />
             <Route path="/cadastroproduto" element={<CadastroProdutosLayout />} />
             <Route path="/cadastroservicos" element={<CadastroServicoLayout />} />

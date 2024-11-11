@@ -5,5 +5,6 @@ export interface Cliente {
   email: string;
   data_nascimento: string; 
   data_cadastro?: string; 
-  imagem_url?: string; 
+  imagem_url?: string;
+  senha?: string;
 }

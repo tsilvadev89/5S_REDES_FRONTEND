@@ -9,4 +9,5 @@ export interface Funcionario {
   cargo?: Cargo; 
   data_contratacao: string; 
   imagem_url?: string; 
+  senha?: string;
 }
