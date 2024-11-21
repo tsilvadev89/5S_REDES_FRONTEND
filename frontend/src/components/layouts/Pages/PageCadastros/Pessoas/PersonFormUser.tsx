@@ -16,6 +16,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  Tooltip,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CopyAllIcon from '@mui/icons-material/CopyAll';
@@ -29,9 +30,10 @@ interface PersonFormUserProps {
   onSave: (cliente: Cliente) => void;
   onDelete: (id: number) => void;
   cliente: Cliente | null;
+  updateOneUser: boolean;
 }
 
-const PersonFormUser: React.FC<PersonFormUserProps> = ({ open, onClose, onSave, onDelete, cliente }) => {
+const PersonFormUser: React.FC<PersonFormUserProps> = ({ open, onClose, onSave, onDelete, cliente, updateOneUser }) => {
   const [formData, setFormData] = useState<Partial<Cliente>>({
     primeiro_nome: '',
     sobrenome: '',
@@ -54,6 +56,7 @@ const PersonFormUser: React.FC<PersonFormUserProps> = ({ open, onClose, onSave, 
         email: '',
         data_nascimento: '',
         imagem_url: '',
+        senha: '',
       });
     }
   }, [cliente]);
@@ -109,15 +112,21 @@ const PersonFormUser: React.FC<PersonFormUserProps> = ({ open, onClose, onSave, 
           </Stack>
         </CardContent>
         <CardActions>
-          <Stack flexDirection={'column'} gap={2} alignItems={'center'} alignContent={'center'} width={'100%'}>
+          <Stack flexDirection="column" gap={2} alignItems="center" width="100%">
             <Button variant="contained" color="primary" onClick={() => setConfirmUpdateOpen(true)}>
               {botaoTexto}
             </Button>
+
             {cliente && (
-              <Button startIcon={<DeleteIcon />} color="error" onClick={() => setConfirmDeleteOpen(true)}>
-                Excluir
-              </Button>
+              <Tooltip title="Para exclusão do usuario, acessar CONFIGURAÇÃO/EXCLUIR CONTA.">
+                <span> {/* Necessário para Tooltip em botões desabilitados */}
+                  <Button disabled startIcon={<DeleteIcon />} color="error" onClick={() => setConfirmDeleteOpen(true)}>
+                    Excluir
+                  </Button>
+                </span>
+              </Tooltip>
             )}
+
             <Button onClick={onClose}>Cancelar</Button>
           </Stack>
         </CardActions>
