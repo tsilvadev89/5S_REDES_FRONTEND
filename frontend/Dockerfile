@@ -15,6 +15,10 @@ FROM nginx:stable-alpine
 # Copiar os arquivos construídos para o diretório padrão do Nginx
 COPY --from=builder /app/dist /usr/share/nginx/html
 
+
+# Copiar os arquivos construídos para o diretório padrão do Nginx
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
 # Expor a porta 80
 EXPOSE 80
 
