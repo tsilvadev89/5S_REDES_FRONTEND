@@ -1,22 +1,19 @@
 import { createTheme, Theme, PaletteMode } from "@mui/material";
 import { createContext, FC, PropsWithChildren, useContext, useMemo, useState } from "react";
 
-// Defina as cores primárias para cada porta
-const primaryColors = {
+// Defina as cores de background para cada porta
+const backgroundColors = {
   8001: {
-    main: "#1976d2",
-    light: "#63a4ff",
-    dark: "#115293",
+    default: "#e3f2fd", // Azul claro
+    paper: "#bbdefb",   // Azul médio
   },
   8002: {
-    main: "#d32f2f",
-    light: "#ff6659",
-    dark: "#9a0007",
+    default: "#ffebee", // Vermelho claro
+    paper: "#ffcdd2",   // Vermelho médio
   },
   8003: {
-    main: "#388e3c",
-    light: "#66bb6a",
-    dark: "#1b5e20",
+    default: "#e8f5e9", // Verde claro
+    paper: "#c8e6c9",   // Verde médio
   },
 } as const;
 
@@ -37,33 +34,32 @@ export const ThemeContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
   // Obtenha a porta e garanta um fallback
   const port = parseInt(import.meta.env.VITE_FRONTEND_PORT || "8001", 10);
-  const primaryColor = primaryColors[port as keyof typeof primaryColors] || primaryColors[8001];
+  const backgroundColor = backgroundColors[port as keyof typeof backgroundColors] || backgroundColors[8001];
 
   // Log para depuração
   console.log("Current mode:", mode);
   console.log("Environment port:", import.meta.env.VITE_FRONTEND_PORT);
   console.log("Parsed port:", port);
-  console.log("Primary color:", primaryColor);
+  console.log("Background color:", backgroundColor);
 
-  if (!primaryColor) {
-    console.error(`No primary color configuration found for port: ${port}`);
+  if (!backgroundColor) {
+    console.error(`No background color configuration found for port: ${port}`);
   }
 
-  // Criação de tema com base no modo e na cor primária
+  // Criação de tema com base no modo e na cor de background
   const theme = useMemo(() => {
     const createdTheme = createTheme({
       palette: {
         mode,
-        primary: {
-          main: primaryColor.main,
-          light: primaryColor.light,
-          dark: primaryColor.dark,
+        background: {
+          default: backgroundColor.default,
+          paper: backgroundColor.paper,
         },
       },
     });
     console.log("Created theme:", createdTheme); // Log do tema criado
     return createdTheme;
-  }, [mode, primaryColor]);
+  }, [mode, backgroundColor]);
 
   const toggleColorMode = () => {
     setMode((prevMode) => {
