@@ -4,16 +4,16 @@ import { createContext, FC, PropsWithChildren, useContext, useMemo, useState } f
 // Defina as cores de background para cada porta
 const backgroundColors = {
   8001: {
-    default: "#e3f2fd", // Azul claro
-    paper: "#bbdefb",   // Azul médio
+    default: "#ffffff", 
+    paper: "#e5e5e5",   
   },
   8002: {
-    default: "#ffebee", // Vermelho claro
-    paper: "#ffcdd2",   // Vermelho médio
+    default: "#cae9ff",
+    paper: "#1b4965", 
   },
   8003: {
-    default: "#e8f5e9", // Verde claro
-    paper: "#c8e6c9",   // Verde médio
+    default: "#eff2f1",
+    paper: "#f4b942", 
   },
 } as const;
 
