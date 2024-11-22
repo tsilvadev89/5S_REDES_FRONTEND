@@ -4,24 +4,24 @@ import { createContext, FC, PropsWithChildren, useContext, useMemo, useState } f
 // Defina as cores primárias para cada porta
 const primaryColors = {
   8001: {
-    main: '#1976d2',
-    light: '#63a4ff',
-    dark: '#115293',
+    main: "#1976d2",
+    light: "#63a4ff",
+    dark: "#115293",
   },
   8002: {
-    main: '#d32f2f',
-    light: '#ff6659',
-    dark: '#9a0007',
+    main: "#d32f2f",
+    light: "#ff6659",
+    dark: "#9a0007",
   },
   8003: {
-    main: '#388e3c',
-    light: '#66bb6a',
-    dark: '#1b5e20',
+    main: "#388e3c",
+    light: "#66bb6a",
+    dark: "#1b5e20",
   },
-} as const; // Usar 'as const' para garantir que o objeto seja tratado como um literal
+} as const;
 
 type ThemeContextType = {
-  mode: PaletteMode; // Altere o tipo para PaletteMode
+  mode: PaletteMode;
   toggleColorMode: () => void;
   theme: Theme;
 };
@@ -33,23 +33,27 @@ export const ThemeContext = createContext<ThemeContextType>({
 });
 
 export const ThemeContextProvider: FC<PropsWithChildren> = ({ children }) => {
-  // Estado para controlar o modo de cor
-  const [mode, setMode] = useState<PaletteMode>("light"); // Altere o tipo para PaletteMode
+  const [mode, setMode] = useState<PaletteMode>("light");
 
-  // Acesse a porta da variável de ambiente
-  const port = (import.meta.env.VITE_FRONTEND_PORT as keyof typeof primaryColors) || '8001'; // Padrão para 8001
-  const primaryColor = primaryColors[port]; // Obtenha a cor primária com base na porta
+  // Obtenha a porta e garanta um fallback
+  const port = parseInt(import.meta.env.VITE_FRONTEND_PORT || "8001", 10);
+  const primaryColor = primaryColors[port as keyof typeof primaryColors] || primaryColors[8001];
 
-  // Log das variáveis
+  // Log para depuração
   console.log("Current mode:", mode);
-  console.log("Current port:", port);
+  console.log("Environment port:", import.meta.env.VITE_FRONTEND_PORT);
+  console.log("Parsed port:", port);
   console.log("Primary color:", primaryColor);
 
-  // Crie o tema com base na cor primária e no modo
+  if (!primaryColor) {
+    console.error(`No primary color configuration found for port: ${port}`);
+  }
+
+  // Criação de tema com base no modo e na cor primária
   const theme = useMemo(() => {
-    return createTheme({
+    const createdTheme = createTheme({
       palette: {
-        mode: mode, // Use o estado do modo
+        mode,
         primary: {
           main: primaryColor.main,
           light: primaryColor.light,
@@ -57,25 +61,23 @@ export const ThemeContextProvider: FC<PropsWithChildren> = ({ children }) => {
         },
       },
     });
-  }, [mode, port]); // Dependências do modo e da porta para atualizar o tema se mudar
+    console.log("Created theme:", createdTheme); // Log do tema criado
+    return createdTheme;
+  }, [mode, primaryColor]);
 
-  // Função para alternar o modo de cor
   const toggleColorMode = () => {
     setMode((prevMode) => {
       const newMode = prevMode === "light" ? "dark" : "light";
-      console.log("Toggled mode to:", newMode); // Log da mudança de modo
+      console.log("Toggled mode to:", newMode);
       return newMode;
     });
   };
 
-  // Defina o valor do contexto
-  const value = { mode, toggleColorMode, theme };
-
   return (
-    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+    <ThemeContext.Provider value={{ mode, toggleColorMode, theme }}>
+      {children}
+    </ThemeContext.Provider>
   );
 };
 
-export const useThemeContext = () => {
-  return useContext(ThemeContext);
-};
+export const useThemeContext = () => useContext(ThemeContext);
