@@ -9,6 +9,10 @@ RUN npm install
 # Copiar o restante dos arquivos da aplicação
 COPY . .
 
+# Declare o argumento e defina a variável de ambiente
+ARG VITE_FRONTEND_PORT
+ENV VITE_FRONTEND_PORT=${VITE_FRONTEND_PORT}
+
 # Construir a aplicação
 RUN npm run build
 
