@@ -6,7 +6,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
-COPY . . 
+COPY . .
 RUN npm run build
 
 # Etapa 2: Configurar o servidor Nginx
@@ -15,12 +15,11 @@ FROM nginx:stable-alpine
 # Copiar os arquivos construídos para o diretório padrão do Nginx
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-
-# Copiar os arquivos construídos para o diretório padrão do Nginx
+# Copiar o arquivo de configuração do Nginx para o container
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expor a porta 80
-EXPOSE 80
+# Expor as portas 8001, 8002, 8003
+EXPOSE 8001 8002 8003
 
 # Iniciar o Nginx no primeiro plano
 CMD ["nginx", "-g", "daemon off;"]
