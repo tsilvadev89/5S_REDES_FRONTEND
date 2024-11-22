@@ -1,18 +1,23 @@
-// vite.config.js
 import { defineConfig } from 'vite';
 
-export default defineConfig({
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          // Separar dependências do React
-          'react-vendor': ['react', 'react-dom'],
-          // Separar MUI em outro chunk
-          'mui-vendor': ['@mui/material', '@mui/icons-material']
-        }
-      }
+export default defineConfig(({ mode }) => {
+  const basePath = process.env.VITE_BASE_PATH_FRONTEND || '/';
+  return {
+    base: basePath,
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'react-vendor': ['react', 'react-dom'],
+            'mui-vendor': ['@mui/material', '@mui/icons-material'],
+          },
+        },
+      },
+      chunkSizeWarningLimit: 1000,
     },
-    chunkSizeWarningLimit: 1000 // Ajuste do limite de aviso de tamanho do chunk
-  }
+    server: {
+      host: true,
+      port: 80,
+    },
+  };
 });

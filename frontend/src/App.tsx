@@ -1,7 +1,7 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { useThemeContext } from "./theme/ThemeContextProvider";
 
-import { BrowserRouter as Router } from 'react-router-dom'; // Corrigido para usar o Router certo
+import { BrowserRouter as Router, Routes } from 'react-router-dom';
 import RoutesConfig from "./Routes/RoutesConfig";
 
 import { TemplateProvider, useTemplate } from "./theme/Template";
@@ -13,18 +13,17 @@ function App() {
   const { theme } = useThemeContext();
   const { template } = useTemplate();
 
- 
-  const basePath = import.meta.env.VITE_BASE_PATH_FRONTEND || "/"; // Use "/" como padrão se não houver variável
-
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Router basename={basePath}>
+      <Router>
         <ThemeProvider theme={theme}>
           <TemplateProvider template={template}>
-            <RoutesConfig />
+            <Routes />
             <CssBaseline />
+            <RoutesConfig />
           </TemplateProvider>
         </ThemeProvider>
+
       </Router>
     </LocalizationProvider>
   );
