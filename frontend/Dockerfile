@@ -12,13 +12,16 @@ RUN npm run build
 # Etapa 2: Configurar o servidor Nginx
 FROM nginx:stable-alpine
 
+# Instalar Node.js e npm para rodar comandos (caso o frontend precise)
+# RUN apk add --no-cache nodejs npm
+
 # Copiar os arquivos construídos para o diretório padrão do Nginx
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copiar o arquivo de configuração do Nginx para o container
+# Certifique-se de que o caminho do nginx.conf está correto
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expor apenas uma porta, pois a porta será definida no Docker Compose
+# Expor apenas a porta 80 (o Nginx vai rodar nessa porta no contêiner)
 EXPOSE 80
 
 # Iniciar o Nginx no primeiro plano
