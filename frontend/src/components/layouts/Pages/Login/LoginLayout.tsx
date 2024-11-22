@@ -22,7 +22,6 @@ const LoginLayout: React.FC = () => {
   const { status } = useParams<{ status?: string }>();
   const location = useLocation();
 
-  const processViteBaseUrl = process.env.VITE_BASE_URL;
   const metaViteBaseUrl = import.meta.env.VITE_BASE_URL;
 
   const loginSchema = z.object({
@@ -56,8 +55,7 @@ const LoginLayout: React.FC = () => {
       // Validar os dados usando zod
       loginSchema.parse({ email, senha: password });
 
-      console.log('processViteBaseUrl - ', processViteBaseUrl)
-      console.log('metaViteBaseUrl - ', metaViteBaseUrl)
+      console.log('metaViteBaseUrl - ', metaViteBaseUrl);
 
       // Chama o serviço de login e obtém o token e o usuário
       // console.log('Tentando fazer login com email:', email, 'e senha:', password); // Log para verificar os dados antes do login
@@ -129,13 +127,8 @@ const LoginLayout: React.FC = () => {
             padding: 4,
           }}
         >
-
           <Typography variant="h4" fontWeight="bold" gutterBottom>
-            {processViteBaseUrl}
-          </Typography>
-
-          <Typography variant="h4" fontWeight="bold" gutterBottom>
-            {metaViteBaseUrl}
+            {metaViteBaseUrl} {/* Exibindo a variável de ambiente */}
           </Typography>
 
           <Typography variant="h4" fontWeight="bold" gutterBottom>
