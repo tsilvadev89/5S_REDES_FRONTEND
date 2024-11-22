@@ -1,19 +1,15 @@
 import { createTheme, Theme, PaletteMode } from "@mui/material";
 import { createContext, FC, PropsWithChildren, useContext, useMemo, useState } from "react";
 
-// Defina as cores de background para cada porta
+// Defina as cores de background para cada porta, sem incluir 8001
 const backgroundColors = {
-  8001: {
-    default: "#ffffff", 
-    paper: "#e5e5e5",   
-  },
   8002: {
-    default: "#D5D5D5",
-    paper: "#edf2f4", 
+    default: "#ffffff", // Fundo claro
+    paper: "#e5e5e5",   // Fundo para papéis ou cartões
   },
   8003: {
-    default: "#eff2f1",
-    paper: "#ffeecf", 
+    default: "#eff2f1", // Fundo esverdeado
+    paper: "#ffeecf",   // Fundo amarelado
   },
 } as const;
 
@@ -32,22 +28,31 @@ export const ThemeContext = createContext<ThemeContextType>({
 export const ThemeContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [mode, setMode] = useState<PaletteMode>("light");
 
-  // Obtenha a porta e garanta um fallback
+  // Obtenha a porta da configuração do ambiente
   const port = parseInt(import.meta.env.VITE_FRONTEND_PORT || "8001", 10);
-  const backgroundColor = backgroundColors[port as keyof typeof backgroundColors] || backgroundColors[8001];
+
+  // Determine a cor de fundo com base na porta
+  const backgroundColor = backgroundColors[port as keyof typeof backgroundColors];
 
   // Log para depuração
   console.log("Current mode:", mode);
   console.log("Environment port:", import.meta.env.VITE_FRONTEND_PORT);
   console.log("Parsed port:", port);
-  console.log("Background color:", backgroundColor);
+  console.log("Background color:", backgroundColor || "Default Material-UI Theme");
 
-  if (!backgroundColor) {
-    console.error(`No background color configuration found for port: ${port}`);
-  }
-
-  // Criação de tema com base no modo e na cor de background
+  // Criação do tema com base no modo
   const theme = useMemo(() => {
+    // Se a porta for 8001, use o tema padrão do Material-UI
+    if (port === 8001) {
+      console.log("Using default Material-UI theme for port 8001.");
+      return createTheme({
+        palette: {
+          mode,
+        },
+      });
+    }
+
+    // Caso contrário, aplique as cores customizadas
     const createdTheme = createTheme({
       palette: {
         mode,
@@ -59,7 +64,7 @@ export const ThemeContextProvider: FC<PropsWithChildren> = ({ children }) => {
     });
     console.log("Created theme:", createdTheme); // Log do tema criado
     return createdTheme;
-  }, [mode, backgroundColor]);
+  }, [mode, backgroundColor, port]);
 
   const toggleColorMode = () => {
     setMode((prevMode) => {
