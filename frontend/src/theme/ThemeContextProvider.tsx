@@ -8,7 +8,7 @@ const backgroundColors = {
     paper: "#e5e5e5",   
   },
   8002: {
-    default: "#cae9ff",
+    default: "#D5D5D5",
     paper: "#edf2f4", 
   },
   8003: {
