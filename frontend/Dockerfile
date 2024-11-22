@@ -3,10 +3,10 @@ FROM node:18-alpine AS builder
 WORKDIR /app
 
 # Copiar apenas os arquivos necessários para o build
-COPY package*.json ./
+COPY package*.json ./ 
 RUN npm install
 
-COPY . .
+COPY . . 
 RUN npm run build
 
 # Etapa 2: Configurar o servidor Nginx
@@ -18,8 +18,8 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # Copiar o arquivo de configuração do Nginx para o container
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expor as portas 8001, 8002, 8003
-EXPOSE 8001 8002 8003
+# Expor apenas uma porta, pois a porta será definida no Docker Compose
+EXPOSE 80
 
 # Iniciar o Nginx no primeiro plano
 CMD ["nginx", "-g", "daemon off;"]
