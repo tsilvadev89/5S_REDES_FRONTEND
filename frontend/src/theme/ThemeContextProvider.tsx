@@ -50,7 +50,11 @@ export const ThemeContextProvider: FC<PropsWithChildren> = ({ children }) => {
     return createTheme({
       palette: {
         mode: mode, // Use o estado do modo
-        primary: primaryColor,
+        primary: {
+          main: primaryColor.main,
+          light: primaryColor.light,
+          dark: primaryColor.dark,
+        },
       },
     });
   }, [mode, port]); // Dependências do modo e da porta para atualizar o tema se mudar
