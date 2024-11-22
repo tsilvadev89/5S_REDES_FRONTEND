@@ -9,11 +9,11 @@ const backgroundColors = {
   },
   8002: {
     default: "#cae9ff",
-    paper: "#1b4965", 
+    paper: "#edf2f4", 
   },
   8003: {
     default: "#eff2f1",
-    paper: "#f4b942", 
+    paper: "#ffeecf", 
   },
 } as const;
 
