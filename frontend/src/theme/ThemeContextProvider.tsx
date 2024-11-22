@@ -40,6 +40,11 @@ export const ThemeContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const port = (import.meta.env.VITE_FRONTEND_PORT as keyof typeof primaryColors) || '8001'; // Padrão para 8001
   const primaryColor = primaryColors[port]; // Obtenha a cor primária com base na porta
 
+  // Log das variáveis
+  console.log("Current mode:", mode);
+  console.log("Current port:", port);
+  console.log("Primary color:", primaryColor);
+
   // Crie o tema com base na cor primária e no modo
   const theme = useMemo(() => {
     return createTheme({
@@ -52,7 +57,11 @@ export const ThemeContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
   // Função para alternar o modo de cor
   const toggleColorMode = () => {
-    setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+    setMode((prevMode) => {
+      const newMode = prevMode === "light" ? "dark" : "light";
+      console.log("Toggled mode to:", newMode); // Log da mudança de modo
+      return newMode;
+    });
   };
 
   // Defina o valor do contexto
