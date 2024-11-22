@@ -5,8 +5,9 @@ import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Button from '@mui/material/Button';
 
-import { Menu } from '@mui/icons-material';
+
 import CustomList from './ListItensMenu';
+import Menu from '@mui/icons-material/Menu';
 
 type Anchor = 'top';
 

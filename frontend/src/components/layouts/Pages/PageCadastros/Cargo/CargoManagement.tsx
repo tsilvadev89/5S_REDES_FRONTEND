@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { cargoService } from '../../../../../services/cargoService';
 import { Cargo } from '../../../../../models/Cargo';
-import {
-  Stack,
-  Button,
-  Snackbar,
-  Alert,
-  Typography,
-  useMediaQuery,
-} from '@mui/material';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import CargoTable from './CargoTable';
 import CargoCardList from './CargoCardList';
 import CargoForm from './CargoForm';

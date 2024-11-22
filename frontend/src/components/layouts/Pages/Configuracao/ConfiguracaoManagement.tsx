@@ -1,5 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Stack, Snackbar, Alert, Typography, Tab, Tabs, useMediaQuery, MenuItem, Select, InputLabel, FormControl, Theme, SelectChangeEvent } from '@mui/material';
+import Stack from '@mui/material/Stack';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import Typography from '@mui/material/Typography';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+
+// Tipos específicos
+import { Theme } from '@mui/material/styles';
+import { SelectChangeEvent } from '@mui/material/Select';
+
 import EditPreferences from './EditPreferences';
 import RequestDataUser from './RequestDataUser';
 import DeleteUserPermanent from './DeleteUserPermanent';

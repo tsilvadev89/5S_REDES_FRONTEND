@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { TextField } from '@mui/material';
+import TextField from '@mui/material/TextField';
+
 import { z } from 'zod';
 
 const NameSchema = z

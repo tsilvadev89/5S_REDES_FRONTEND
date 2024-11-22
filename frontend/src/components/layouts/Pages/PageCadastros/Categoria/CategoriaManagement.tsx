@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { categoriaService } from '../../../../../services/categoriaService';
 import { Categoria } from '../../../../../models/Categoria';
-import {
-  Stack,
-  Button,
-  Snackbar,
-  Alert,
-  Typography,
-  useMediaQuery,
-  ToggleButton,
-  ToggleButtonGroup,
-} from '@mui/material';
+
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+
 import CategoriaTable from './CategoriaTable';
 import CategoriaCardList from './CategoriaCardList';
 import CategoriaForm from './CategoriaForm';
+
 
 const CategoriaManagement: React.FC = () => {
   const [categorias, setCategorias] = useState<Categoria[]>([]);

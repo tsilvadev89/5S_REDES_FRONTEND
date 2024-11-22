@@ -1,7 +1,7 @@
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import useTheme from '@mui/material/styles/useTheme'; 
+import useMediaQuery from '@mui/material/useMediaQuery'; 
 import { useTemplate } from '../../../../theme/Template';
-import { useEffect } from 'react';
+import { useEffect } from 'react'; 
 import DashboardPage from './DashboardPage';
 
 export default function DashboardLayout() {

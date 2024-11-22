@@ -1,12 +1,13 @@
-import { Stack } from "@mui/material";
-import Divider from '@mui/material/Divider';
 import React, { useEffect, useState } from 'react';
+import Stack from '@mui/material/Stack';
+import Divider from '@mui/material/Divider';
 import MenuMobile from "../../Home/header/MenuMobile";
 import MenuDesktop from "../../Home/header/MenuDesktop";
 import HeaderMobile from "../../Home/header/HeaderMobile";
 import HeaderDesktop from "../../Home/header/HeaderDesktop";
 import UserManagement from "./UserManagement";
 import { funcionarioService } from "../../../../../services/funcionarioService";
+
 
 interface LayoutProps {
     template: string;

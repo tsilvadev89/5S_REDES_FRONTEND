@@ -1,9 +1,11 @@
 import React from 'react';
+
 import CarouselCardServices from '../body/CarouselCardServices';
 import ListFilterServices from '../body/ListFilterServices';
-import { Divider, Stack } from '@mui/material';
 import CarouselCardProdutos from '../body/CarouselCardProdutos';
 import ListFilterProdutos from '../body/ListFilterProdutos';
+import Stack from '@mui/material/Stack';
+import Divider from '@mui/material/Divider';
 
 interface HomePageProps {
     template: string;

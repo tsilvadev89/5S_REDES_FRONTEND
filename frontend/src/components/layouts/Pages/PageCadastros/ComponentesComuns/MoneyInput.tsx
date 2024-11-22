@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { TextField } from '@mui/material';
+import TextField from '@mui/material/TextField';
+
 import { z } from 'zod';
 
 const MoneySchema = z.string().regex(/^R\$ ?\d{1,3}(\.\d{3})*,\d{2}$/, {

@@ -1,17 +1,17 @@
 import { createTheme, Theme, PaletteMode } from "@mui/material";
 import { createContext, FC, PropsWithChildren, useContext, useMemo, useState } from "react";
 
-// Defina as cores de background para cada porta, sem incluir 8001
-const backgroundColors = {
+// Defina as cores de background para cada porta
+const backgroundColors: Record<number, { default: string; paper: string }> = {
   8002: {
-    default: "#ffffff", // Fundo claro
-    paper: "#e5e5e5",   // Fundo para papéis ou cartões
+    default: "#D5D5D5",
+    paper: "#edf2f4",
   },
   8003: {
-    default: "#eff2f1", // Fundo esverdeado
-    paper: "#ffeecf",   // Fundo amarelado
+    default: "#eff2f1",
+    paper: "#ffeecf",
   },
-} as const;
+};
 
 type ThemeContextType = {
   mode: PaletteMode;
@@ -28,50 +28,39 @@ export const ThemeContext = createContext<ThemeContextType>({
 export const ThemeContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [mode, setMode] = useState<PaletteMode>("light");
 
-  // Obtenha a porta da configuração do ambiente
-  const port = parseInt(import.meta.env.VITE_FRONTEND_PORT || "8001", 10);
+  // Obter porta e garantir fallback
+  const rawPort = import.meta.env.VITE_FRONTEND_PORT;
+  const port = parseInt(rawPort || "8001", 10);
 
-  // Determine a cor de fundo com base na porta
-  const backgroundColor = backgroundColors[port as keyof typeof backgroundColors];
+  // Verificar se devemos usar tema customizado
+  const shouldUseCustomTheme = backgroundColors.hasOwnProperty(port);
 
-  // Log para depuração
-  console.log("Current mode:", mode);
-  console.log("Environment port:", import.meta.env.VITE_FRONTEND_PORT);
+  // Logs para depuração
+  console.log("Port from environment:", rawPort);
   console.log("Parsed port:", port);
-  console.log("Background color:", backgroundColor || "Default Material-UI Theme");
+  console.log("Use custom theme:", shouldUseCustomTheme);
 
-  // Criação do tema com base no modo
+  // Criar tema dinamicamente
   const theme = useMemo(() => {
-    // Se a porta for 8001, use o tema padrão do Material-UI
-    if (port === 8001) {
-      console.log("Using default Material-UI theme for port 8001.");
+    if (shouldUseCustomTheme) {
+      const backgroundColor = backgroundColors[port];
+      console.log("Using custom background colors:", backgroundColor);
       return createTheme({
         palette: {
           mode,
+          background: {
+            default: backgroundColor.default,
+            paper: backgroundColor.paper,
+          },
         },
       });
     }
-
-    // Caso contrário, aplique as cores customizadas
-    const createdTheme = createTheme({
-      palette: {
-        mode,
-        background: {
-          default: backgroundColor.default,
-          paper: backgroundColor.paper,
-        },
-      },
-    });
-    console.log("Created theme:", createdTheme); // Log do tema criado
-    return createdTheme;
-  }, [mode, backgroundColor, port]);
+    console.log("Using default Material-UI theme");
+    return createTheme({ palette: { mode } });
+  }, [mode, port]);
 
   const toggleColorMode = () => {
-    setMode((prevMode) => {
-      const newMode = prevMode === "light" ? "dark" : "light";
-      console.log("Toggled mode to:", newMode);
-      return newMode;
-    });
+    setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
   };
 
   return (

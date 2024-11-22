@@ -2,7 +2,10 @@ import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CustomList from './ListItensMenu';
-import { CssBaseline, AppBar, Toolbar, Divider } from '@mui/material';
+import CssBaseline from '@mui/material/CssBaseline/CssBaseline';
+import AppBar from '@mui/material/AppBar/AppBar';
+import Toolbar from '@mui/material/Toolbar/Toolbar';
+import Divider from '@mui/material/Divider/Divider';
 
 interface Page {
     url: string;

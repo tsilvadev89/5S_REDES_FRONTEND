@@ -10,7 +10,8 @@ import PeopleIcon from '@mui/icons-material/People';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import { Category, Work } from '@mui/icons-material';
+import Category from '@mui/icons-material/Category';
+import Work from '@mui/icons-material/Work';
 
 interface CustomListProps {
   navigateToPage: (path: string) => void;

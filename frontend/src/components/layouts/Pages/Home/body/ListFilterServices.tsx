@@ -1,9 +1,18 @@
 import { useState, useEffect } from 'react';
-import { FormControl, InputLabel, Select, MenuItem, Box, Typography, Card, CardContent, CardMedia, SelectChangeEvent } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
 import { categoriaService } from '../../../../../services/categoriaService';
 import { servicoService } from '../../../../../services/servicoService';
 import { Categoria } from '../../../../../models/Categoria';
 import { Servico } from '../../../../../models/Servico';
+import { SelectChangeEvent } from '@mui/material';
 
 const ListFilterServices = () => {
   const [categories, setCategories] = useState<Categoria[]>([]);

@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Stack, Typography, Button, Alert, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Snackbar } from '@mui/material';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
+import Snackbar from '@mui/material/Snackbar';
 import { clienteService } from '../../../../services/clienteService';
 import { funcionarioService } from '../../../../services/funcionarioService';
 import { authService } from '../../../../services/authService';

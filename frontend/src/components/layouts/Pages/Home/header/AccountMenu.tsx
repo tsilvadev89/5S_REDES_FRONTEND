@@ -10,8 +10,9 @@ import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { authService } from '../../../../../services/authService';
-import { Snackbar } from '@mui/material';
-import { useNavigate } from 'react-router-dom'; 
+import Snackbar from '@mui/material/Snackbar';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

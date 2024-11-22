@@ -3,17 +3,16 @@ import { servicoService } from '../../../../../services/servicoService';
 import { categoriaService } from '../../../../../services/categoriaService';
 import { Servico } from '../../../../../models/Servico';
 import { Categoria } from '../../../../../models/Categoria';
-import {
-  Stack,
-  Button,
-  Snackbar,
-  Alert,
-  Typography,
-  useMediaQuery,
-} from '@mui/material';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import ServicoTable from './ServicoTable';
 import ServicoCardList from './ServicoCardList';
 import ServicoForm from './ServicoForm';
+
 
 const ServicoManagement: React.FC = () => {
   const [servicos, setServicos] = useState<Servico[]>([]);

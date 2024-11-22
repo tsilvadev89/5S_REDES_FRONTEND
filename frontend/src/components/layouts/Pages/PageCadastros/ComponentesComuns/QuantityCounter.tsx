@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { TextField, IconButton, Grid } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import Grid from '@mui/material/Grid';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+
 
 const QuantityCounter = () => {
   const [quantity, setQuantity] = useState(0);

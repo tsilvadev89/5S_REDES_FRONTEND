@@ -1,6 +1,12 @@
 import React from 'react';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 import { Cliente } from '../../../../../models/Cliente';
-import { Card, CardContent, Stack, Typography, Avatar, Box } from '@mui/material';
+
 
 interface UserCardListUserProps {
   clientes: Cliente[];

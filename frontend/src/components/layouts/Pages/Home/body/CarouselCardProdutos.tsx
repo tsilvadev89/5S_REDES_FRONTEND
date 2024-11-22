@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, Typography, CardMedia, IconButton } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { Categoria } from '../../../../../models/Categoria';
-import { categoriaService } from '../../../../../services/categoriaService';
+import React, { useState, useEffect } from 'react'; // React padrão
+import Card from '@mui/material/Card'; // Importação direta para o Card
+import CardContent from '@mui/material/CardContent'; // Importação direta para o CardContent
+import Typography from '@mui/material/Typography'; // Importação direta para Typography
+import CardMedia from '@mui/material/CardMedia'; // Importação direta para CardMedia
+import IconButton from '@mui/material/IconButton'; // Importação direta para IconButton
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // Ícone individual
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'; // Ícone individual
+import { Categoria } from '../../../../../models/Categoria'; // Importação local de modelo
+import { categoriaService } from '../../../../../services/categoriaService'; // Serviço local
+
 
 interface PropsCarousel {
   template: string;

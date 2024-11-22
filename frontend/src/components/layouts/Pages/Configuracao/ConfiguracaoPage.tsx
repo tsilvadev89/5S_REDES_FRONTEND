@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import React from 'react';
 import MenuMobile from "../Home/header/MenuMobile";

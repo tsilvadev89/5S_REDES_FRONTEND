@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, Typography, CardMedia, IconButton } from '@mui/material';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent'; 
+import Typography from '@mui/material/Typography'; 
+import CardMedia from '@mui/material/CardMedia';
+import IconButton from '@mui/material/IconButton'; 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Categoria } from '../../../../../models/Categoria';
 import { categoriaService } from '../../../../../services/categoriaService';
+
 
 interface PropsCarousel {
   template: string;

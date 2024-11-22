@@ -17,12 +17,14 @@ export default defineConfig(() => {
             'mui-vendor': ['@mui/material', '@mui/icons-material'],
           },
         },
+        minify: true, // garantir que a minificação ocorra
+        sourcemap: false, // desabilitar sourcemaps em produção
       },
       chunkSizeWarningLimit: 1000,
     },
     server: {
       host: true,
-      port: port, 
+      port: port,
     },
   };
 });

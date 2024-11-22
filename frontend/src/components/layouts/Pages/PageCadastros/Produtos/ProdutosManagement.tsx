@@ -3,14 +3,12 @@ import { produtoService } from '../../../../../services/produtoService';
 import { categoriaService } from '../../../../../services/categoriaService';
 import { Produto } from '../../../../../models/Produto';
 import { Categoria } from '../../../../../models/Categoria';
-import {
-  Stack,
-  Button,
-  Snackbar,
-  Alert,
-  Typography,
-  useMediaQuery,
-} from '@mui/material';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import ProdutoTable from './ProdutoTable';
 import ProdutoCardList from './ProdutosCardList';
 import ProdutoForm from './ProdutosForm';

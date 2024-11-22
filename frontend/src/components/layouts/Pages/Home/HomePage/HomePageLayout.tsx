@@ -1,7 +1,7 @@
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTemplate } from '../../../../../theme/Template';
 import { useEffect } from 'react';
+import { useTemplate } from '../../../../../theme/Template';
 import HomePage from './HomePage';
 
 export default function HomePageLayout() {

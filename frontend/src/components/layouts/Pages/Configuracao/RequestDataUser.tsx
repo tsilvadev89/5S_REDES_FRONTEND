@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Stack, Typography, Button, CircularProgress, Snackbar } from '@mui/material';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import Snackbar from '@mui/material/Snackbar';
 import { lgpdService } from '../../../../services/lgpdService';
 import { authService } from '../../../../services/authService';
 import { clienteService } from '../../../../services/clienteService';

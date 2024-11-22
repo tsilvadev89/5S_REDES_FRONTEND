@@ -1,6 +1,12 @@
 import React from 'react';
 import { Cargo } from '../../../../../models/Cargo';
-import { Card, CardContent, Stack, Typography, Avatar, Box } from '@mui/material';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+
 
 interface CargoCardListProps {
   cargos: Cargo[];

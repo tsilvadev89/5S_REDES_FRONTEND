@@ -2,26 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { clienteService } from '../../../../../services/clienteService';
 import { funcionarioService } from '../../../../../services/funcionarioService';
 import { cargoService } from '../../../../../services/cargoService';
+import { authService } from '../../../../../services/authService';
 import { Cliente } from '../../../../../models/Cliente';
 import { Funcionario } from '../../../../../models/Funcionario';
 import { Cargo } from '../../../../../models/Cargo';
-import {
-  Stack,
-  Button,
-  Snackbar,
-  Alert,
-  Typography,
-  useMediaQuery,
-  ToggleButton,
-  ToggleButtonGroup,
-} from '@mui/material';
+
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+
 import UserTableUser from './UserTableUser';
 import UserTableFunc from './UserTableFunc';
 import UserCardListUser from './UserCardListUser';
 import UserCardListFunc from './UserCardListFunc';
 import PersonFormUser from './PersonFormUser';
 import PersonFormFunc from './PersonFormFunc';
-import { authService } from '../../../../../services/authService';
+
 
 interface UserManagementProps {
   admin: boolean;

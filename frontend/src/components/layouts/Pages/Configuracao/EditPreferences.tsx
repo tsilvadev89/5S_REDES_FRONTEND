@@ -1,19 +1,26 @@
 import React, { useState } from 'react';
-import {
-  Stack,
-  Typography,
-  Switch,
-  FormControlLabel,
-  Checkbox,
-  Paper,
-  Select,
-  MenuItem,
-  Button,
-  Tooltip,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
-import { WhatsApp, Sms, Email, VolumeUp, WbSunny, DarkMode, Save } from '@mui/icons-material';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Paper from '@mui/material/Paper';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import useTheme from '@mui/material/styles/useTheme';
+
+import WbSunny from '@mui/icons-material/WbSunny';
+import DarkMode from '@mui/icons-material/DarkMode';
+import WhatsApp from '@mui/icons-material/WhatsApp';
+import Sms from '@mui/icons-material/Sms';
+import Email from '@mui/icons-material/Email';
+import VolumeUp from '@mui/icons-material/VolumeUp';
+import Save from '@mui/icons-material/Save';
+
+
 
 interface Preferences {
   darkMode: boolean;

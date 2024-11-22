@@ -1,7 +1,9 @@
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+
 import { useTemplate } from '../../../../../theme/Template';
 import { useEffect } from 'react';
+
 import CadastroProdutosPage from './CadastroProdutosPage';
 
 export default function CadastroProdutosLayout() {

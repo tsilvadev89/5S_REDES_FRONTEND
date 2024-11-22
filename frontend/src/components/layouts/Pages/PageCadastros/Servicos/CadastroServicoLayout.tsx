@@ -4,6 +4,7 @@ import { useTemplate } from '../../../../../theme/Template';
 import { useEffect } from 'react';
 import CadastroServicoPage from './CadastroServicoPage';
 
+
 export default function CadastroServicoLayout() {
     const theme = useTheme();
     const { template: currentTemplate, setTemplate } = useTemplate();

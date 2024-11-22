@@ -1,7 +1,7 @@
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTemplate } from '../../../../../theme/Template';
 import { useEffect } from 'react';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import { useTemplate } from '../../../../../theme/Template';
 import CadastroPessoasPage from './CadastroPessoasPage';
 
 export default function CadastroPessoasLayout() {

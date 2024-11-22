@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { TextField } from '@mui/material';
+import { useState } from 'react';
+import TextField from '@mui/material/TextField';
 import { z } from 'zod';
 
 const CPFSchema = z.string().regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, { message: 'CPF inválido' });

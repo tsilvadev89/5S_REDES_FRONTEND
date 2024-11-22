@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { TextField } from '@mui/material';
+import { useState } from 'react';
+import TextField from '@mui/material/TextField';
 import { z } from 'zod';
+
 
 const CNPJSchema = z.string().regex(
   /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/,

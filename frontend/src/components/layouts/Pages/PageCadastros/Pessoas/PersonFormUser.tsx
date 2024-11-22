@@ -1,28 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Dialog,
-  Button,
-  TextField,
-  Stack,
-  Avatar,
-  Typography,
-  IconButton,
-  Card,
-  CardContent,
-  CardActions,
-  Snackbar,
-  Alert,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Tooltip,
-} from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
+import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogActions from '@mui/material/DialogActions';
+import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CopyAllIcon from '@mui/icons-material/CopyAll';
 import dayjs, { Dayjs } from 'dayjs';
 import DateField from '../ComponentesComuns/DateField';
 import { Cliente } from '../../../../../models/Cliente';
+
 
 interface PersonFormUserProps {
   open: boolean;

@@ -1,8 +1,16 @@
 import { useState } from 'react';
-import { Button, Grid, IconButton, Tooltip, Stack } from '@mui/material';
+
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import Stack from '@mui/material/Stack';
+
 import { RemoveCircleOutline, AddCircleOutline, Phone, PhoneIphone } from '@mui/icons-material';
+
 import ResidentialPhoneInput from './TelResindencial';
 import CellPhoneInput from './TelCelular';
+
 
 const MultiplePhonesInput = () => {
   const [phones, setPhones] = useState([{ phoneNumber: '', type: 'residential' }]);

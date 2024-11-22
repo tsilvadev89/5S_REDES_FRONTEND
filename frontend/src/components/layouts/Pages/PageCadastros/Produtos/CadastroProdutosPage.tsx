@@ -1,11 +1,15 @@
-import { Stack } from "@mui/material";
-import Divider from '@mui/material/Divider';
+
 import React from 'react';
+
 import MenuMobile from "../../Home/header/MenuMobile";
 import MenuDesktop from "../../Home/header/MenuDesktop";
 import HeaderMobile from "../../Home/header/HeaderMobile";
 import HeaderDesktop from "../../Home/header/HeaderDesktop";
 import ProdutosManagement from "./ProdutosManagement";
+import Stack from '@mui/material/Stack';
+import Divider from '@mui/material/Divider';
+
+
 
 interface LayoutProps {
     template: string;

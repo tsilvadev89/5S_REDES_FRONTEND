@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+
 import Divider from '@mui/material/Divider';
 import React from 'react';
 import MenuMobile from "../header/MenuMobile";
@@ -6,6 +6,7 @@ import MenuDesktop from "../header/MenuDesktop";
 import HeaderMobile from "../header/HeaderMobile";
 import HeaderDesktop from "../header/HeaderDesktop";
 import Home from "./Home";
+import Stack from '@mui/material/Stack';
 
 interface LayoutProps {
     template: string;
