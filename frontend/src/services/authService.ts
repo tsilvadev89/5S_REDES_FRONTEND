@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const BASE_URL = `${import.meta.env.VITE_BASE_URL}/auth` || 'http://localhost:3000/api/auth';
+
+
+const BASE_URL = `${process.env.VITE_BASE_URL}/auth` || 'http://localhost:3000/api/auth';
+/* const BASE_URL = `${import.meta.env.VITE_BASE_URL}/auth` || 'http://localhost:3000/api/auth'; */
 
 interface User {
   funcionario_id: any;

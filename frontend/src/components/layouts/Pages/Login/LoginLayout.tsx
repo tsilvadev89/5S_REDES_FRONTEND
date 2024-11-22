@@ -22,6 +22,9 @@ const LoginLayout: React.FC = () => {
   const { status } = useParams<{ status?: string }>();
   const location = useLocation();
 
+  const processViteBaseUrl = process.env.VITE_BASE_URL;
+  const metaViteBaseUrl = import.meta.env.VITE_BASE_URL
+
   const loginSchema = z.object({
     email: z.string().email('Por favor, insira um e-mail válido'),
     senha: z.string().min(6, 'A senha deve ter no mínimo 6 caracteres'),
@@ -123,6 +126,15 @@ const LoginLayout: React.FC = () => {
             padding: 4,
           }}
         >
+
+          <Typography variant="h4" fontWeight="bold" gutterBottom>
+            {processViteBaseUrl}
+          </Typography>
+
+          <Typography variant="h4" fontWeight="bold" gutterBottom>
+            {metaViteBaseUrl}
+          </Typography>
+
           <Typography variant="h4" fontWeight="bold" gutterBottom>
             BEM VINDO
           </Typography>
@@ -198,9 +210,9 @@ const LoginLayout: React.FC = () => {
         autoHideDuration={5000}
         onClose={() => setOpenSnackbar(false)}
         message={error}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} 
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       />
-       <Snackbar open={openSnackbarDelete} autoHideDuration={3000} onClose={() => setOpenSnackbarDelete(false)}>
+      <Snackbar open={openSnackbarDelete} autoHideDuration={3000} onClose={() => setOpenSnackbarDelete(false)}>
         <Alert onClose={() => setOpenSnackbarDelete(false)} severity="error">
           {deleteError}
         </Alert>
