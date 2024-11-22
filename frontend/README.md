@@ -16,7 +16,3 @@
 1. `cd frontend`
 2. `npm install`
 3. `npm run dev`
-
-2. Initialize a backend project
-1. `cd backend\executavel`
-2. `java -jar wbbackend.jar`
