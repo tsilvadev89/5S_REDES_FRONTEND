@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Button, Divider, Link, Snackbar, Alert } from '@mui/material';
+import { Box, Typography, Button, Divider, Link, Snackbar, Alert, useTheme} from '@mui/material';
 import InputField from './InputField';
 import Checkbox from './Checkbox';
 import GoogleIcon from '@mui/icons-material/Google';
@@ -18,6 +18,7 @@ const LoginLayout: React.FC = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openSnackbarDelete, setOpenSnackbarDelete] = useState(false);
 
+  const theme = useTheme();
 
   const { status } = useParams<{ status?: string }>();
   const location = useLocation();
@@ -93,13 +94,13 @@ const LoginLayout: React.FC = () => {
       justifyContent="center"
       alignItems="center"
       margin={'0, auto'}
-      sx={{ backgroundColor: '#f0f0f0' }}
+      sx={{ backgroundColor: theme.palette.background.default }}
     >
       {/* Contêiner principal com duas colunas */}
       <Box
         display="flex"
         flexDirection="row"
-        bgcolor="#fff"
+        bgcolor={theme.palette.background.paper}
         borderRadius={2}
         boxShadow={3}
         overflow="hidden"
