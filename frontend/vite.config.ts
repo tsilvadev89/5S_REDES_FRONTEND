@@ -16,11 +16,22 @@ export default defineConfig(() => {
             'react-vendor': ['react', 'react-dom'],
             'mui-vendor': ['@mui/material', '@mui/icons-material'],
           },
+          onwarn(warning, warn) {
+            if (warning.code !== 'MODULE_LEVEL_DIRECTIVE') warn(warning);
+          },
         },
         minify: true, // garantir que a minificação ocorra
-        sourcemap: false, // desabilitar sourcemaps em produção
+        sourcemap: false, // desabilitar sourcemaps em produçãoa
       },
-      chunkSizeWarningLimit: 1000,
+      chunkSizeWarningLimit: 2000,
+    },
+    optimizeDeps: {
+      include: [
+        '@mui/material',
+        '@mui/icons-material',
+        '@emotion/react',
+        '@emotion/styled',
+      ],
     },
     server: {
       host: true,
