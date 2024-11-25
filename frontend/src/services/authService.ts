@@ -14,6 +14,7 @@ export const authService = {
   // Função para fazer login e retornar o token e os dados do usuário
   async login(email: string, senha: string): Promise<{ token: string; usuario: User }> {
     try {
+      console.log('BASE_URL - ',BASE_URL)
       const response = await axios.post(`${BASE_URL}/login`, { email, senha });
       
       // Verifique se a resposta contém os dados esperados
